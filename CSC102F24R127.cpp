@@ -54,8 +54,8 @@ void loadAppointments(string appoPatient[][5] , int appoAge[][5] ,bool appoPFlag
 int main(){
     const int rsize = 2 ; // Number of Receptionist 
     const int dsize = 3 ; // Number of Doctors 
-    const int psize = 30 ; // Number of Patients 
-    const int bsize = 30 ; // Number of Beds
+    const int psize = 100 ; // Number of Patients 
+    const int bsize = 100 ; // Number of Beds
     const int maxAppointments = 5 ;// max number of appointments 
     const int oneDay = 1000 ;    // one day charges of hospital  
     const int appointment = 1500 ; // appointment charges 
