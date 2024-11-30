@@ -1,0 +1,3 @@
+1,M kashif,1,sher ali,28,MALE,fever,12-08-2024
+1,M kashif,2,abrar ali,43,MALE,fever,23-08-2029
+1,M kashif,3,tayyab ,34,MALE,fever,12-09-2024

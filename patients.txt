@@ -1,0 +1,2 @@
+1,zawar khan,35,MALE,cough
+2,luqman ali,43,MALE,cough
