@@ -1,3 +1,2 @@
-1,M kashif,56,MALE,ashif2,doc1
-2,Noor ahmed,23,MALE,ahmed123,doc2
-3,M saim,34,MALE,saim,doc3
+1,M kashif,56,MALE,kidney specialist,kashif2,doc1
+2,Noor ahmed,23,MALE,child specialist,ahmed123,doc2
