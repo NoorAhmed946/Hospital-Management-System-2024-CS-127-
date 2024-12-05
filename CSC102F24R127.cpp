@@ -5,29 +5,70 @@
 #include<string>
 #include<fstream>
 using namespace std ;
+
+struct doctor{
+   string name ;
+   string userName ;
+   string pwdD ;
+   string gender ;
+   string category ;
+   int idD ;
+   int age ;
+   bool isDoc ;
+
+};
+
+struct receptionist{
+   string name ;
+   string userName ;
+   string pwdR ;
+   string gender ;
+   int idR ;
+   int age ;
+   bool isRec ;
+};
+
+struct patient {
+    string name ;
+    string gender ;
+    string disease ;
+    int    idP ;
+    int    age ;
+    bool isPatient ;
+};
+
+struct appoint {
+   string name ;
+   string date ;
+   string gender ;
+   string disease ;
+   int idA ;
+   int age ;
+   bool isConfirmed ;
+} ;
 void header() ;
 
-void adminD(string doctor[],string pwdD[],int idD[],bool docFlag[] ,string doctorName [] ,int doctorAge[], string doctorGender[],int dsize,bool &msg) ;
-void adminR(string receptionist[] , string pwdR[],int idR[] ,bool recFlag[] ,string receptionistName[],int receptionistAge[], string receptionistGender[], int rsize) ;
-void adminP(string patient[],bool pFlag[],string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool appoDFlag[][5],string doctor[],int idD[],bool docFlag[], int psize , int dsize) ;
-void beds(bool bed[] , int psize ) ;
+void adminD(int dsize,bool &msg , doctor doctors[]) ;
+void adminR(receptionist recs[] , int rsize) ;
+void adminP(doctor doctors[],patient patients[],appoint appointments[][5] ,int psize , int dsize ) ;
+void beds(bool bed[] , int psize , int userType) ;
 
-void recP(string patient[] ,int ageP[] , bool pFlag[] , int idP[],int &doctorID ,bool bed[],string gender[],string disease[] , int psize ) ;
-void recA(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool appoDFlag[][5],string doctorName[],int idD[],bool docFlag[],string  appoGender[][5] ,string  appoDisease[][5], int appoAge[][5] , int dsize , int maxAppointments , int appoPatientId[][5],bool &msg) ;
-void recB(string patient[], bool bed[], int idP[], int ageP[], int psize,  string appoPatient[][5], bool appoPFlag[][5], int dsize,int oneDay, int appointment ,int appoPatientId[][5]);
+void recP(patient patients[] , int psize ,bool bed[] ) ;
+void recA(appoint appointments[][5], doctor doctors[], int dsize, int maxAppointments, bool &msg) ;
+void recB(patient patients[] ,appoint appointments[][5],bool bed[], int psize, int dsize,int oneDay, int appointment );
 
-void docP1(string appoPatient[][5],bool appoPFlag[][5],string  appoGender[][5] ,string  appoDisease[][5] , int appoAge[][5],int maxAppointments,int appoPatientId[][5] ) ;
-void docA1(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool appoDFlag[][5],string doctor[],int idD[],bool docFlag[],int maxAppointments,int appoPatientId[][5] ) ;
+void docP1(appoint appointments[][5],int maxAppointments ) ;
+void docA1(appoint appointments[][5],doctor doctors[] ,  int maxAppointments) ;
 
-void docP2(string appoPatient[][5],bool appoPFlag[][5],string  appoGender[][5] ,string  appoDisease[][5] , int appoAge[][5],int maxAppointments,int appoPatientId[][5]) ;
-void docA2(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool appoDFlag[][5],string doctor[],int idD[],bool docFlag[],int maxAppointments,int appoPatientId[][5]) ;
+void docP2(appoint appointments[][5],int maxAppointments ) ;
+void docA2(appoint appointments[][5],doctor doctors[] , int maxAppointments) ;
 
-void docP3(string appoPatient[][5],bool appoPFlag[][5],string  appoGender[][5] ,string  appoDisease[][5] , int appoAge[][5],int maxAppointments,int appoPatientId[][5]) ;
-void docA3(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool appoDFlag[][5],string doctor[],int idD[],bool docFlag[],int maxAppointments,int appoPatientId[][5]) ;
+void docP3(appoint appointments[][5],int maxAppointments ) ;
+void docA3(appoint appointments[][5],doctor doctors[] , int maxAppointments) ;
 
-void docList(string doctor[],string pwdD[],int idD[],bool docFlag[] ,string doctorName [] ,int doctorAge[], string doctorGender[],int dsize) ;
-void docListA(string doctorName[],int idD[] ,bool docFlag[] , int dsize ) ;
-void appoinList(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool appoDFlag[][5],string doctor[],int idD[],bool docFlag[] , int dsize) ;
+void docList(doctor doctors[] , int dsize) ;
+void docListA(doctor doctors[] , int dsize ) ;
+void appoinList( appoint appointments[][5],doctor doctors[] ,int dsize) ;
 
 int getValidinput012() ;
 int getValidinput0123() ;
@@ -35,121 +76,70 @@ int getValidinput05() ;
 int getValidinput123() ;
 string validGen() ;
 int validAge() ;
-string validDate(string appoDate[][5], int inputidD, int maxAppointments) ;
-int getInt() ;
+string validDate(appoint appointments[][5], int inputidD, int maxAppointments,bool update) ;
 int toInt(const string &str , int st , int end ) ;
+int getInt() ;
 
-string uniqueDocUser(string doctor[] , int dsize ) ;
-string uniqueRecUser(string receptionist[],int rsize ) ;
+string uniqueDocUser(doctor doctors[] , int dsize,bool update ) ;
+string uniqueRecUser(receptionist recs[],int rsize,bool update ) ;
 
-void savePatientData(string patient[] ,int ageP[] , bool pFlag[] , int idP[],string gender[],string disease[] , int psize) ;
-void saveAppointments(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool appoDFlag[][5],string doctor[] ,string  appoGender[][5] ,string  appoDisease[][5] , int appoAge[][5] , int maxAppointments,int dsize , int appoPatientId[][5]) ;
-void saveDoctorsData(string doctor[],string pwdD[],int idD[],bool docFlag[] ,string doctorName [] ,int doctorAge[], string doctorGender[],int dsize ) ;
-void saveReceptionist(string receptionist[] , string pwdR[],int idR[] ,bool recFlag[] ,string receptionistName[],int receptionistAge[], string receptionistGender[], int rsize) ;
+void savePatientData(patient patients[] ,   int psize) ;
+void saveAppointments(appoint appointments[][5] ,doctor doctors[], int maxAppointments,int dsize ) ;
+void saveDoctorsData( doctor doctors[] ,int dsize ) ;
+void saveReceptionist(receptionist recs[], int rsize) ;
 
-void loadReceptionistData(string receptionist[] , string pwdR[],int idR[] ,bool recFlag[] ,string receptionistName[],int receptionistAge[], string receptionistGender[], int rsize) ;
-void loadDoctorData(string doctor[],string pwdD[],int idD[],bool docFlag[] ,string doctorName [] ,int doctorAge[], string doctorGender[],int dsize) ; 
-void loadPatientData(string patient[],int idP[],bool pFlag[] , int ageP[],string gender[] , string disease[] , int psize ,bool bed[]) ;
-void loadAppointments(string appoPatient[][5] , int appoAge[][5] ,bool appoPFlag[][5],string appoDate[][5],bool appoDFlag[][5] ,string appoGender[][5] ,string appoDisease[][5],int dsize , int maxAppointments,int appoPatientId[][5]) ;
+void loadReceptionistData(receptionist recs[], int rsize) ;
+void loadDoctorData(doctor doctors[] ,int dsize) ; 
+void loadPatientData(patient patients[] ,  int psize,bool bed[]) ;
+void loadAppointments(appoint appointments[][5] , int maxAppointments,int dsize ) ;
+
 int main(){
     const int rsize = 2 ; // Number of Receptionist 
-    const int dsize = 3 ; // Number of Doctors 
-    const int psize = 100 ; // Number of Patients 
-    const int bsize = 100 ; // Number of Beds
+    const int dsize = 10 ; // Number of Doctors 
+    const int psize = 1000 ; // Number of Patients 
     const int maxAppointments = 5 ;// max number of appointments 
     const int oneDay = 1000 ;    // one day charges of hospital  
     const int appointment = 1500 ; // appointment charges 
-    bool  msg = false  ; // to be sent receptionist if Admin changes any record of Doctor 
+    bool  msg = false  ; // to be sent to  receptionist if Admin changes any record of Doctor 
     
-    string receptionist[rsize] ; 
-    string pwdR[rsize] ;
-    bool   recFlag[rsize] ;
-    int    idR[rsize] ;
-    string receptionistName[rsize] ;
-    int    receptionistAge[rsize] ;
-    string receptionistGender[rsize] ;
- 
-    string doctor[dsize] ;
-    bool   docFlag[dsize] ;
-    string pwdD[dsize] ;
-    int    idD[dsize] ;
-    string doctorName[dsize] ;
-    int    doctorAge[dsize] ;
-    string doctorGender[dsize] ;
+    receptionist recs[rsize] ;  // struct array
 
-    string patient[psize] ;
-    bool   pFlag[psize] ;
-    int    idP[psize] ;
-    int    ageP[psize] ;
-    string gender[psize] ;
-    string disease[psize] ;
+    doctor doctors[dsize] ; // struct array 
     
+    patient patients[psize] ; // struct array 
     bool    bed[psize] ;
 
-    string  appoPatient[dsize][maxAppointments] ;
-    int     appoPatientId[dsize][maxAppointments] ;
-    int     appoAge[dsize][maxAppointments] ;
-    bool    appoPFlag[dsize][maxAppointments] ;
-    string  appoDate[dsize][maxAppointments]  ;
-    bool    appoDFlag[dsize][maxAppointments] ; 
-    string  appoGender[dsize][maxAppointments] ;
-    string  appoDisease[dsize][maxAppointments] ;
-    
-
+    appoint appointments[dsize][maxAppointments] ;
+  
     int input , input1, input2 , input3 , doctorId = 0; 
     int userType ;
     string userName ;
     string pwd ;
        
     for(int i = 0 ; i<dsize ; i++){  // indicating no data about doctors 
-        doctor[i] = "NV" ;   
-        pwdD[i] =  "NV" ; 
-        idD[i] = -1 ;
-        docFlag[i] = false ;
-        doctorName[i] = "NV" ;
-        doctorAge[i] = -1 ;
-        doctorGender[i] = "NV" ;
-     }
+       doctors[i] = {"NV","NV","NV","NV","NV",-1,-1,false} ;
+    }
    
    
-      for(int i = 0 ; i<rsize ; i++){
-         receptionist[i] = "NV" ;  // indicating no data about receptionist
-         pwdR[i] =  "NV" ; 
-         idR[i] = -1 ;
-         docFlag[i] = false ;
-         receptionistName[i] = "NV" ;
-         receptionistAge[i] =  -1 ;
-         receptionistGender[i] = "NV" ;
-      }
+    for(int i = 0 ; i<rsize ; i++){  // indicating no data about receptionist
+       recs[i] = {"NV","NV","NV","NV",-1,-1,false} ;
+    }
       
-       for(int i = 0 ; i<psize ; i++){
-         patient[i] = "NV" ;        // indicating no data about patients
-         idP[i] = -1 ;
-         pFlag[i] = false ;
-         ageP[i] = 0 ;
-         gender[i] = "NV" ;
-         disease[i] = "NV" ;
-         bed[i] = false ;
-      }
+    for(int i = 0 ; i<psize ; i++){  // indicating no data about patients
+       patients[i] = {"NV","NV","NV",-1,-1,false} ;  
+    }
 
      
-      for(int i = 0 ;i<dsize ; i++){
-          for(int j= 0; j<maxAppointments ; j++){  // indicating  No data about appointments  
-              appoPatient[i][j] = "NV" ;   
-              appoPatientId[i][j] = -1 ;
-              appoPFlag[i][j] = false ;
-              appoDate[i][j] = "NV" ;
-              appoDFlag[i][j] = false ;
-              appoGender[i][j] = "NV" ;
-              appoDisease[i][j] = "NV" ;
-              appoAge[i][j]  = -1 ;
-          }
-      }
-       // FUNCTIONS TO LOAD AAL DATA IN FILES 
-       loadReceptionistData(receptionist,pwdR,idR,recFlag,receptionistName,receptionistAge,receptionistGender, rsize) ;
-       loadDoctorData(doctor ,pwdD,idD, docFlag,doctorName,doctorAge,doctorGender, dsize) ;
-       loadPatientData(patient,idP,pFlag,ageP,gender,disease,psize,bed) ;
-       loadAppointments(appoPatient,appoAge,appoPFlag,appoDate,appoDFlag,appoGender,appoDisease, dsize,maxAppointments,appoPatientId) ;
+      for (int i = 0; i < dsize; i++) {
+        for (int j = 0; j < maxAppointments; j++) {
+            appointments[i][j] = {"NV", "NV", "NV","NV", -1,-1,false}; 
+        }
+    }
+       // FUNCTIONS TO LOAD ALL DATA IN FILES 
+       loadReceptionistData(recs,rsize) ;
+       loadDoctorData(doctors,dsize) ;
+       loadPatientData(patients,psize,bed) ;
+       loadAppointments(appointments,maxAppointments,dsize) ;
        
     do{ 
        header();
@@ -189,12 +179,13 @@ int main(){
 
                  // Password  correct or not 
                  for(int i = 0; i<rsize ; i++){
-                    if(userName == receptionist[i] && pwd == pwdR[i]){
+                    if(userName == recs[i].userName && pwd == recs[i].pwdR){
                       found = true ;
                     }
                  }
 
-                 found ? userType = 2 : userType = -1 ;
+                found ? userType = 2 : userType = -1 ;
+              
                  break ;  
               }
               case 3 : { 
@@ -211,8 +202,8 @@ int main(){
                 cin>> pwd ;
                 // Password  correct or not 
                 for(int i = 0 ; i<dsize ; i++){
-                    if(userName == doctor[i] && pwd == pwdD[i]){
-                       doctorId = idD[i] ;
+                    if(userName == doctors[i].userName && pwd == doctors[i].pwdD){
+                       doctorId = doctors[i].idD ;
                        found = true ;
                     }
                 } 
@@ -245,11 +236,10 @@ int main(){
              
              cout<<"Choose the Desired Section  : " <<endl ;
              cout<<"1. Doctors "                    <<endl ; 
-             cout<<"2. Receptionist "               <<endl ; 
-             cout<<"3. Patients Lists    "          <<endl ;
-             cout<<"4. Beds   "                <<endl ;
-             cout<<"0. Exit   "                     <<endl ;
-             cout<<'\n' ;
+             cout<<"2. Receptionist "               <<endl ;
+             cout<<"3. Patients List"               <<endl ;
+             cout<<"4. Beds "                       <<endl ;
+             cout<<"0. Exit "                       <<endl ;   
 
              cout<<"Choose an option : " ;
              input1 = getValidinput05() ; 
@@ -257,24 +247,24 @@ int main(){
              switch(input1) {
                    case 1 : {
                       // function call of doctor 
-                      adminD(doctor ,pwdD,idD, docFlag,doctorName,doctorAge,doctorGender, dsize,msg) ;
+                      adminD(dsize,msg,doctors) ;
                       break ;
                    }
                    case 2 : {
                     // function call of Receptionist 
-                      adminR(receptionist,pwdR,idR,recFlag,receptionistName,receptionistAge,receptionistGender, rsize) ;
+                      adminR(recs, rsize) ;
                 
                      break ;
                    }
                    case 3 : {
                     // function call of Patients 
-                      adminP(patient,pFlag,appoPatient,appoPFlag,appoDate,appoDFlag,doctor,idD,docFlag,psize , dsize) ;
+                      adminP(doctors , patients , appointments ,psize , dsize) ;
                    
                      break ;
                    }
                     case 4 : {
                      // function call of Beds
-                     beds(bed,psize) ;
+                     beds(bed,psize,userType) ;
                     
                      break ;
                    }
@@ -320,21 +310,21 @@ int main(){
             switch(input2){
                 case 1 : {
                     // Patient Registeration Function Call 
-                    recP(patient, ageP , pFlag , idP , doctorId , bed , gender,disease,psize) ;
+                    recP( patients , psize ,bed) ;
                     break ;
                 } 
                 case 2 : {
                     // Appopinment Scheduling 
-                    recA(appoPatient , appoPFlag,appoDate,appoDFlag,doctorName,idD,docFlag,appoGender,appoDisease,appoAge ,dsize,maxAppointments,appoPatientId,msg );
+                    recA(appointments,doctors,dsize,maxAppointments,msg );
                     break ;
                 }
                 case 3 : {
                     // Bed Management 
-                    beds(bed,psize) ;
+                    beds(bed,psize,userType) ;
                     break ;
                 }
                 case 4 : { // Bills 
-                    recB(patient, bed, idP, ageP, psize, appoPatient, appoPFlag, dsize, oneDay, appointment,appoPatientId );
+                    recB(patients,appointments,bed,psize,dsize,oneDay,appointment);
 
                     break ;
                 }
@@ -378,12 +368,12 @@ int main(){
                switch(input3){
                       case 1 : {
                         // Appointments 
-                         docA1(appoPatient,appoPFlag,appoDate,appoDFlag,doctor,idD,docFlag,maxAppointments,appoPatientId) ;
+                         docA1(appointments,doctors,maxAppointments) ;
                          break ;
                       }
                       case 2 : {            
                          // pateint list ;
-                         docP1(appoPatient,appoPFlag,appoGender,appoDisease,appoAge,maxAppointments,appoPatientId) ;  
+                         docP1(appointments,maxAppointments) ;  
                          break ;
 
                       }
@@ -421,13 +411,13 @@ int main(){
                switch(input3){
                       case 1 : {
                          // Appointments section 
-                         docA2(appoPatient,appoPFlag,appoDate,appoDFlag,doctor,idD,docFlag,maxAppointments,appoPatientId) ;
+                         docA2(appointments,doctors,maxAppointments) ;
                         
                          break ;
                       }
                       case 2 : {
                           // pateint list ;
-                         docP2(appoPatient,appoPFlag,appoGender,appoDisease,appoAge,maxAppointments,appoPatientId) ;
+                         docP2(appointments,maxAppointments) ;
                          break ;
 
                       }
@@ -465,12 +455,12 @@ int main(){
                switch(input3){
                       case 1 : {
                           // Appointments function call          
-                         docA3(appoPatient,appoPFlag,appoDate,appoDFlag,doctor,idD,docFlag,maxAppointments,appoPatientId) ;  
+                         docA3(appointments,doctors,maxAppointments) ;  
                          break ;
                       }
                       case 2 : {
                             // pateint list   
-                          docP3(appoPatient,appoPFlag,appoGender,appoDisease,appoAge,maxAppointments,appoPatientId) ;  
+                          docP3(appointments,maxAppointments) ;  
                          break ;
 
                       }
@@ -532,10 +522,8 @@ cout<<"\t\t\t\t\t\t\t\tChoose an Option : " ;
 
 // Doctors Management By admin 
 
-void adminD(string doctor[],string pwdD[],int idD[],bool docFlag[] ,string doctorName [] ,int doctorAge[], string doctorGender[],int dsize,bool &msg) {
+void adminD(int dsize,bool &msg,doctor doctors[]) {
      int input;
-     int counter = 0 ; 
-            
      string name , pwd , userName;
      cout<<'\n' ;
      cout<<" ====================="  <<endl ;
@@ -559,35 +547,38 @@ void adminD(string doctor[],string pwdD[],int idD[],bool docFlag[] ,string docto
         case 1 :{   //ADD
           bool found = false ;
           for(int i = 0 ;i<dsize ; i++){
-              if(docFlag[i] == false){
+              if(! doctors[i].isDoc){
                  
                  cout<<"Enter Doctor's Name : " ;
-                 getline(cin,doctorName[i]) ;
+                 getline(cin,doctors[i].name) ;
 
                  cout<<"Enter Doctor's Age : " ;
-                 doctorAge[i] = validAge();
+                 doctors[i].age = validAge();
 
                  cout<<"Enter Doctor's Gender (male/female) : " ;
-                 doctorGender[i] = validGen() ;                                  
+                 doctors[i].gender = validGen() ; 
+
+                 cout<<"Enter the specialization of the doctor :  " ;
+                 getline(cin,doctors[i].category) ;                                  
 
                  cout<< " Assign UserName (Without Space) : " ;
-                 doctor[i] = uniqueDocUser(doctor,dsize) ;
+                 doctors[i].userName  = uniqueDocUser(doctors ,dsize,false) ;
+                 
 
                  cout<<" Assign password :  " ;
-                 cin>> pwdD[i] ;
+                 cin>> doctors[i].pwdD ;
 
-                 idD[i] = i+1 ;
+                 doctors[i].idD = i+1 ;
 
-                 docFlag[i] = true ;
+                 doctors[i].isDoc = true ;
                  found = true ;
-                 counter++ ;
                  break ;
               }
           }
           found ? cout<<"Succesfully Added! " : cout<<"Cannot Add New Doctors Details.Space is full" ;
           cout<<endl ;
           cout<<endl ;
-          saveDoctorsData(doctor ,pwdD,idD, docFlag,doctorName,doctorAge,doctorGender, dsize) ;
+          saveDoctorsData(doctors, dsize) ;
           break ;
         }
         case 2 :{ // Delete
@@ -597,22 +588,15 @@ void adminD(string doctor[],string pwdD[],int idD[],bool docFlag[] ,string docto
             cin>>name ; ;
 
             for(int i = 0; i< dsize ; i++){
-              if(name == doctor[i] && docFlag[i] == true){
-                doctor[i] = "NV" ;
-                pwdD[i] = "NV" ;
-                docFlag[i] = false ;
-                idD[i] = -1 ;
-                doctorName[i] ="NV" ;
-                doctorAge[i] = -1 ;
-                doctorGender[i] = "NV";
+              if(name == doctors[i].userName && doctors[i].isDoc == true){
+                doctors[i] = {"NV","NV","NV","NV","NV",-1,-1,false} ;
                 found = true ; 
-                counter-- ;
                 msg = true ;
                 break;
               }
             }
             found ? cout<<"Deleted Successfully!" : cout<<"Name not Found !" ;
-            saveDoctorsData(doctor ,pwdD,idD, docFlag,doctorName,doctorAge,doctorGender, dsize) ;
+            saveDoctorsData(doctors, dsize) ;
             cout<<endl ;  
             cout<<endl ;
   
@@ -624,42 +608,45 @@ void adminD(string doctor[],string pwdD[],int idD[],bool docFlag[] ,string docto
             cin>>name ;
 
             for(int i = 0; i< dsize ; i++){
-              if(name == doctor[i] && docFlag[i] == true) {
+              if(name == doctors[i].userName &&  doctors[i].isDoc == true) {
 
                  cout<<"Enter Doctor's Name : " ;
                  cin.ignore(100,'\n') ; 
-                 getline(cin,doctorName[i]) ;
+                 getline(cin, doctors[i].name) ;
 
                  cout<<"Enter Doctor's Age : " ;
-                 doctorAge[i] = validAge();
+                 doctors[i].age = validAge();
 
                  cout<<"Enter Doctor's Gender (male/female) : " ;
-                 doctorGender[i] = validGen() ;                                  
+                 doctors[i].gender = validGen() ;   
+
+                 cout<<"Enter the specialization of the doctor :  " ;
+                 getline(cin,doctors[i].category) ;                                 
 
                  cout<< " Assign UserName (Without Space) : " ;
-                 doctor[i] = uniqueDocUser(doctor,dsize) ;
+                 doctors[i].userName  = uniqueDocUser(doctors ,dsize,true) ;
 
                  cout<<" Assign password :  " ;
-                 cin>> pwdD[i] ;
+                 cin>>  doctors[i].pwdD ;
                  msg = true ; 
                  found = true ;
                  break ;
               }
             }
             found ? cout<<"Updated Successfully!" : cout<<"Name not Found !!" ;
-            saveDoctorsData(doctor ,pwdD,idD, docFlag,doctorName,doctorAge,doctorGender, dsize) ;
+            saveDoctorsData(doctors, dsize) ;
             cout<<endl ; 
             cout<<endl ;
 
           break ;
         }
         case 4 :{ // list
-          docList(doctor ,pwdD,idD, docFlag,doctorName,doctorAge,doctorGender, dsize) ;   
+          docList(doctors, dsize) ;   
           break ;
         }
         case 0 :{
           cout<<"Exiting From Doctor's Section ." <<endl ;
-          saveDoctorsData(doctor ,pwdD,idD, docFlag,doctorName,doctorAge,doctorGender, dsize) ;
+          saveDoctorsData(doctors, dsize) ;
           break ;
         }
          default :{
@@ -673,7 +660,7 @@ void adminD(string doctor[],string pwdD[],int idD[],bool docFlag[] ,string docto
 
 // Receptionists Management by Admin
 
-void adminR (string receptionist[] , string pwdR[],int idR[] ,bool recFlag[] ,string receptionistName[],int receptionistAge[], string receptionistGender[], int rsize) {
+void adminR(receptionist recs[] , int rsize) {
      int input , counter = 0 ;
      string name , pwd ;
      cout<<'\n' ;
@@ -698,31 +685,31 @@ void adminR (string receptionist[] , string pwdR[],int idR[] ,bool recFlag[] ,st
         case 1 :{ //ADD
             bool found = false ;
             for(int i = 0 ; i<rsize ; i++){
-                if(recFlag[i] == false){
+                if(recs[i].isRec == false){
                    cout<<"Enter Receptionist Name : " ;
-                   getline(cin,receptionistName[i]) ;
+                   getline(cin,recs[i].name ) ;
 
                    cout<<"Enter Receptionist Age : " ;
-                   receptionistAge[i] = validAge() ;    
+                   recs[i].age = validAge() ;    
                  
                    cout<<"Enter Receptionist Gender (male/female ):" ;
-                   receptionistGender[i] = validGen() ; 
+                   recs[i].gender = validGen() ; 
 
                    cout<<"Assign Receptionist UserName (without space) : " ;
-                   receptionist[i] = uniqueRecUser(receptionist,rsize) ;
+                   recs[i].userName = uniqueRecUser(recs,rsize,false);
 
                    cout<<"Assign Password :  " ;
-                   cin>> pwdR[i] ;
+                   cin>> recs[i].pwdR ;
 
-                   idR[i] = i + 1 ;
-                   recFlag[i] = true ;
+                   recs[i].idR = i + 1 ;
+                   recs[i].isRec = true ;
                    found = true ;
                    counter++ ;
                    break ; 
                 }
             }
             found ? cout<<"Succesfully Added " : cout<<"There is no vacancy to add more receptionist " ;
-            saveReceptionist(receptionist,pwdR,idR,recFlag,receptionistName,receptionistAge,receptionistGender, rsize )  ;
+            saveReceptionist(recs, rsize )  ;
             cout<<endl ;
             cout<<endl ;
           break ;
@@ -733,21 +720,15 @@ void adminR (string receptionist[] , string pwdR[],int idR[] ,bool recFlag[] ,st
           cin>>name ;
 
             for(int i = 0; i< rsize ; i++){
-              if(name == receptionist[i] && recFlag[i] == true){
-                receptionist[i] = "NV" ;
-                pwdR[i] = "NV" ;
-                recFlag[i] = false ;
-                idR[i] = -1 ;
-                receptionistName[i] = "NV" ;
-                receptionistAge[i] = -1 ;
-                receptionistGender[i] = "NV" ;
+              if(name == recs[i].userName && recs[i].isRec == true){
+               recs[i] = {"NV","NV","NV","NV",-1,-1,false} ;
                 found = true ; 
                 counter-- ;
                 break;
               }
             }
             found ? cout<<"Deleted Successfully!" : cout<<"Name not Found !" ;
-            saveReceptionist(receptionist,pwdR,idR,recFlag,receptionistName,receptionistAge,receptionistGender, rsize )  ;
+            saveReceptionist(recs, rsize )  ;
             cout<<endl ;   
             cout<<endl ; 
           break ;
@@ -755,35 +736,35 @@ void adminR (string receptionist[] , string pwdR[],int idR[] ,bool recFlag[] ,st
         case 3 :{
           // Update 
             bool found = false ;
-
+            
             cout<<"Enter Receptionist's UserName : " ;
             cin>> name ;
 
             for(int i = 0; i< rsize ; i++){
-              if(name == receptionist[i] && recFlag[i] == true) {
+              if( name == recs[i].userName &&  recs[i].isRec == true) {
 
-                   cout<<"Enter Receptionist Name : " ; 
+                   cout<<"Enter Receptionist Name : " ;
                    cin.ignore() ;
-                   getline(cin,receptionistName[i]) ;
+                   getline(cin,recs[i].name ) ;
 
                    cout<<"Enter Receptionist Age : " ;
-                   receptionistAge[i] = validAge() ;    
+                   recs[i].age = validAge() ;    
                  
                    cout<<"Enter Receptionist Gender (male/female ):" ;
-                   receptionistGender[i] = validGen() ; 
+                   recs[i].gender = validGen() ; 
 
                    cout<<"Assign Receptionist UserName (without space) : " ;
-                   cin>>receptionist[i] ;
+                   recs[i].userName = uniqueRecUser(recs,rsize,true);
 
                    cout<<"Assign Password :  " ;
-                   cin>> pwdR[i] ;
+                   cin>> recs[i].pwdR ;
 
                    found = true ;
                    break ; 
               }
             }
               found ? cout<<"Updated Successfully!" : cout<<"Name not Found !!"  ;
-              saveReceptionist(receptionist,pwdR,idR,recFlag,receptionistName,receptionistAge,receptionistGender, rsize )  ;
+              saveReceptionist(recs, rsize )  ;
               cout<<endl ; 
               cout<<endl ;
             
@@ -797,9 +778,9 @@ void adminR (string receptionist[] , string pwdR[],int idR[] ,bool recFlag[] ,st
            cout<<"==============================================================================================================================================" <<endl ;
           
           for(int i = 0 , j= 1 ; i<rsize ;i++){
-               if(recFlag[i]){
+               if(recs[i].isRec){
                cout<<left ;   
-               cout<<setw(10) << j << setw(15) <<idR[i] <<setw(32)<< receptionistName[i] << setw(25) << receptionistAge[i] <<setw(25) << receptionistGender[i] <<setw(30) <<receptionist[i]<< setw(25)<< pwdR[i] <<endl ;
+               cout<<setw(10) << j << setw(15) << recs[i].idR <<setw(32)<< recs[i].name  << setw(25) << recs[i].age <<setw(25) << recs[i].gender <<setw(30) << recs[i].userName << setw(25)<< recs[i].pwdR <<endl ;
                found = true ;   
                j++ ;
                }
@@ -825,7 +806,7 @@ void adminR (string receptionist[] , string pwdR[],int idR[] ,bool recFlag[] ,st
 
 //  Admin Function for Patients 
 
-void adminP(string patient[],bool pFlag[],string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool appoDFlag[][5],string doctor[3],int idD[],bool docFlag[], int psize , int dsize ){
+void adminP(doctor doctors[],patient patients[],appoint appointments[][5] ,int psize , int dsize ){
      int input;
      cout<<'\n' ;
      cout<<" ====================="  <<endl ;
@@ -853,8 +834,8 @@ void adminP(string patient[],bool pFlag[],string appoPatient[][5],bool appoPFlag
           cout<<"No.Of\t"<<"Patients Name "               <<endl ; 
           cout<<"=======================================" <<endl ; 
           for(int i = 0 , j= 1 ;i<psize ; i++){
-             if(pFlag[i] == true ){
-             cout<<j<<"\t"<<patient[i] <<endl ;
+             if(patients[i].isPatient == true ){
+             cout<<j<<"\t"<< patients[i].name  <<endl ;
              j++ ;
              found = true ;                
              }
@@ -866,7 +847,7 @@ void adminP(string patient[],bool pFlag[],string appoPatient[][5],bool appoPFlag
         break ;
         }
         case 2:{  // appointments lists 
-          appoinList(appoPatient , appoPFlag,appoDate,appoDFlag,doctor,idD,docFlag,dsize) ;
+          appoinList(appointments,doctors,dsize) ;
           cout<<endl ;
             break;
         }   
@@ -881,8 +862,12 @@ void adminP(string patient[],bool pFlag[],string appoPatient[][5],bool appoPFlag
 
 // Beds Function of Admin 
 
-void beds(bool bed[] , int psize){
+void beds(bool bed[] , int psize , int userType){
      int counter = 0 ;
+
+     switch(userType){
+
+      case 1 : {
      cout<<'\n' ;
      cout<<" ====================="  <<endl ;
      cout<<"         ADMIN        "  <<endl ;
@@ -895,15 +880,31 @@ void beds(bool bed[] , int psize){
     }
      cout<<"Number of Beds Occupied : " << counter <<endl ;
      cout<<endl ;
-      
-}
+     }
+     
+     case 2 : {
+       cout<<'\n' ;
+     cout<<" ====================="  <<endl ;
+     cout<<"     Receptionist       "  <<endl ;
+     cout<<" ====================="  <<endl ; 
+     cout<<'\n' ;
+
+     for(int i = 0 ; i<psize ; i++){
+        if(bed[i] == true )
+           counter++ ;  // Count the number of beds
+    }
+     cout<<"Number of Beds Occupied : " << counter <<endl ;
+     cout<<endl ;
+     }
+     }     
+     }
 
 /////////////   RECEPTIONIST
 
 // Patients
 
-void recP (string patient[] ,int ageP[], bool pFlag[] , int idP[] ,int &dectorID,bool bed[],string gender[],string disease[], int psize) {
-     int input , counter = 0 ;
+void recP(patient patients[] , int psize , bool bed[] ) {
+     int input ;
      string name ;
      cout<<'\n' ;
      cout<<" ====================="  <<endl ;
@@ -924,32 +925,31 @@ void recP (string patient[] ,int ageP[], bool pFlag[] , int idP[] ,int &dectorID
      input = getValidinput05() ;
 
      switch(input){
-        case 1 :{  // adding data of ne patient
+        case 1 :{  // adding data of new patient
             bool found = false ;
             for(int i = 0 ; i<psize ; i++){
-                if(pFlag[i] == false){
+                if(patients[i].isPatient == false){
                   cout<<"Enter Patient's Name : " ;
-                  //cin.ignore() ;
-                  getline(cin,patient[i]) ;
+                  getline(cin,patients[i].name ) ;
 
                   cout<<"Enter Patient's age :  " ;
-                  ageP[i] = validAge() ;
+                  patients[i].age = validAge() ;
 
                   cout<<"Enter Gender(male/female) : " ;
-                  gender[i] = validGen() ;
+                  patients[i].gender = validGen() ;
 
                   cout<<"Enter Disease : " ;
-                  cin>> disease[i] ;
+                  cin>> patients[i].disease ;
 
-                  idP[i] = i + 1 ;
-                  pFlag[i] = true ;
+                  patients[i].idP = i + 1 ;
+                  patients[i].isPatient = true ;
                   bed[i] = true ;
                   found = true ;
-                  counter++ ;
+
                   break ; 
                 }
             }
-            savePatientData(patient,ageP,pFlag,idP,gender,disease,psize) ;
+            savePatientData(patients,psize) ;
             found ? cout<<"Succesfully Added " : cout<<"There is no space to add more Patients " ;
             cout<<endl ;
             cout<<endl ;
@@ -964,20 +964,13 @@ void recP (string patient[] ,int ageP[], bool pFlag[] , int idP[] ,int &dectorID
           id = getInt() ;
 
             for(int i = 0; i< psize ; i++){
-              if(id == idP[i] && pFlag[i] == true){
-                patient[i] = "NV" ;
-                pFlag[i] = false ;
-                idP[i] = -1 ;
-                ageP[i] = 0 ;
-                bed[i] = false ;
-                gender[i] = "NV" ;
-                disease[i] = "NV" ;
+              if(id == patients[i].idP &&  patients[i].isPatient == true){
+               patients[i] = {"NV","NV","NV",-1,-1,false} ;  
                 found = true ; 
-                counter-- ;
                 break;
               }
             }
-            savePatientData(patient,ageP,pFlag,idP,gender,disease,psize) ;
+          savePatientData(patients,psize) ;
             found ? cout<<"Deleted Successfully!" : cout<<"Name not Found !" ;
             cout<<endl ;  
             cout<<endl ;  
@@ -991,25 +984,25 @@ void recP (string patient[] ,int ageP[], bool pFlag[] , int idP[] ,int &dectorID
             id = getInt() ;
 
             for(int i = 0; i< psize ; i++){
-              if(id == idP[i] && pFlag[i] == true) {
-                cout<<"Enter Updated Name : " ;
-                cin.ignore() ;
-                getline(cin,patient[i]) ;
+              if(id == patients[i].idP && patients[i].isPatient == true) {
+                cout<<"Enter Patient's Name : " ;
+                cin.ignore();
+                getline(cin,patients[i].name ) ;
 
-                cout<<"Enter Patient's age : " ;
-                ageP[i] = validAge() ;
+                cout<<"Enter Patient's age :  " ;
+                patients[i].age = validAge() ;
 
-                cout<<"Enter Gender (male/female):" ;
-                gender[i] = validGen() ;
+                cout<<"Enter Gender(male/female) : " ;
+                patients[i].gender = validGen() ;
 
                 cout<<"Enter Disease : " ;
-                cin>> disease[i] ;
+                cin>> patients[i].disease ;
 
                 found = true ;
                 break;
               }
             }
-           savePatientData(patient,ageP,pFlag,idP,gender,disease,psize) ; 
+          savePatientData(patients,psize) ;
            found ? cout<<"Updated Successfully!" : cout<<"Name not Found !!" ;
             cout<<endl ; 
             cout<<endl ;
@@ -1023,9 +1016,9 @@ void recP (string patient[] ,int ageP[], bool pFlag[] , int idP[] ,int &dectorID
           cout<<"=========================================================================================================" <<endl ;
           
           for(int i = 0,j=1 ; i<psize ;i++){
-             if(pFlag[i]){
+             if(patients[i].isPatient){
               cout<<left ;  
-              cout<< setw(10)<< j << setw(20) <<idP[i] << setw(30) << patient[i] << setw(20) <<ageP[i] <<setw(16) <<gender[i]<< setw(30)<<disease[i]<<endl ;
+              cout<< setw(10)<< j << setw(20) <<patients[i].idP << setw(30) << patients[i].name << setw(20) <<patients[i].age  <<setw(16) <<  patients[i].gender << setw(30)<<patients[i].disease<<endl ;
               found = true ;
               j++ ;   
              }
@@ -1039,7 +1032,7 @@ void recP (string patient[] ,int ageP[], bool pFlag[] , int idP[] ,int &dectorID
         case 0 :{
           cout<<"Exiting From Patient's Section ." <<endl ;
           cout<<endl ;
-          savePatientData(patient,ageP,pFlag,idP,gender,disease,psize) ;
+          savePatientData(patients,psize) ;
           break ;
         }
          default :{
@@ -1052,156 +1045,140 @@ void recP (string patient[] ,int ageP[], bool pFlag[] , int idP[] ,int &dectorID
 }
 
 // Appointments 
-void recA(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool appoDFlag[][5],string doctorName[],int idD[],bool docFlag[] ,string  appoGender[][5] ,string  appoDisease[][5] , int appoAge[][5] , int dsize , int maxAppointments ,int appoPatientId[][5],bool &msg ) {
-     int input , inputIdD;
-     string name ;
-     cout<<'\n' ; 
-     cout<<" ====================="  <<endl ;
-     cout<<"     Receptionist         "  <<endl ;
-     cout<<" ====================="  <<endl ; 
-     cout<<'\n' ;
+void recA(appoint appointments[][5], doctor doctors[], int dsize, int maxAppointments, bool &msg) {
+    int input, inputIdD;
+    cout << '\n';
+    cout << " =====================" << endl;
+    cout << "     Receptionist         " << endl;
+    cout << " =====================" << endl;
+    cout << '\n';
 
-     if(msg){
-         cout<<"Doctor's Record have been updated. So Update the appointments "<<endl <<endl ;
-     } 
-      do{
-      cout<<"Choose the Option : " <<endl ;
-      cout<<"1. New Appointment  : " <<endl ;
-      cout<<"2. Delete Appointment  : " <<endl ;
-      cout<<"3. Update Appointment : " <<endl ;
-      cout<<"4. Appointments List   : " <<endl ;
-      cout<<"5. Doctor's List  : "   <<endl ;
-      cout<<"0. Exit   : " <<endl ;
-      cout<<'\n' ;
+    if (msg) {
+        cout << "Doctor's Record has been updated. Please update the appointments." << endl << endl;
+    }
 
-      cout<<"Choose an option : " <<endl ;
-      input = getValidinput05() ;
-       cout<<endl ; 
-       
-       cout<<endl ;
-       switch(input){
-        case 1 :{ //New Appointment 
-          bool found = false ;
-          docListA(doctorName ,idD, docFlag,dsize) ;
-          cout<<endl ;
-          cout<<endl ;
+    do {
+        cout << "Choose the Option: " << endl;
+        cout << "1. New Appointment  " << endl;
+        cout << "2. Delete Appointment  " << endl;
+        cout << "3. Update Appointment " << endl;
+        cout << "4. Appointments List   " << endl;
+        cout << "5. Doctor's List  " << endl;
+        cout << "0. Exit   " << endl;
+        cout << '\n';
 
-          cout<<"Enter the id of the Doctor You want to select for Appointmemt :" ;
-          inputIdD = getValidinput123() ;  // Get the id of data
-          inputIdD = inputIdD - 1 ;   // substracting the Id by -1 to get the row of 2d array               
-          cout<<endl ;
-                     
-          
-          for(int j=0 ; j<maxAppointments ;j++){
-                 // Add the appointment in specific row   
-              if(appoPFlag[inputIdD][j] == false && appoDFlag[inputIdD][j] == false ){
-                 cout<<"Enter Patient  Name : " ;
-                 //cin.ignore() ;
-                 getline(cin,appoPatient[inputIdD][j] );
+        cout << "Choose an option: ";
+        input = getValidinput05();
+        cout << endl;
 
-                 cout<<"Enter Patient's Age : ";
-                 appoAge[inputIdD][j] = validAge() ;
+        switch (input) {
+            case 1: { // New Appointment
+                bool found = false;
+                docListA(doctors, dsize); // Display the list of doctors
+                cout << endl;
 
-                 cout<<"Enter Gender :" ;
-                 appoGender[inputIdD][j] = validGen() ;
+                cout << "Enter the ID of the doctor you want to select for the appointment: ";
+                inputIdD = getValidinput123();
+                inputIdD -= 1; // Adjust for zero-based indexing
 
-                  cout<<"Enter Disease : " ;
-                  cin.ignore() ;
-                 getline(cin,appoDisease[inputIdD][j]) ;
+                for (int j = 0; j < maxAppointments; j++) {
+                    if (!appointments[inputIdD][j].isConfirmed) {
+                        cout << "Enter Patient Name: ";
+                        getline(cin, appointments[inputIdD][j].name);
 
-                 cout <<"Enter appointment date (dd-mm-yyyy): ";
-                 appoDate[inputIdD][j] = validDate(appoDate,inputIdD,maxAppointments) ;
+                        cout<<"Enter Patient's Age : " ;
+                        appointments[inputIdD][j].age = validAge() ;
 
-                 appoPatientId[inputIdD][j]  = j + 1 ;
-                 appoPFlag[inputIdD][j] = true ;
-                 appoDFlag[inputIdD][j] = true ;
-                 found = true ; 
-                 break ;
+                        cout << "Enter Gender (male/female): ";
+                        appointments[inputIdD][j].gender = validGen();
 
-              }
-          }
-          if(!found){
-             cout<<"Appointments are full . Cannot Set New Appointments " <<endl ;
-             cout<<endl ;
-          }
-          saveAppointments(appoPatient,appoPFlag,appoDate,appoDFlag,doctorName,appoGender,appoDisease,appoAge,maxAppointments,dsize,appoPatientId);
-          break ;
-        }
-        case 2 :{  // Delete Appointments
-          bool found = false ;
-          int id ;
-          cout<<"Enter Patient Id to Delete His/Her Appointment : " ;
-          // cin.ignore() ;
-          id = getInt() ;
+                        cout << "Enter Disease: ";
+                        cin.ignore() ;
+                        getline(cin, appointments[inputIdD][j].disease);
 
-          cout<<"Enter Doctor's Id : " ;
-          inputIdD = getValidinput123() ;
-          inputIdD = inputIdD - 1 ;
+                        cout << "Enter appointment date (dd-mm-yyyy): ";
+                        appointments[inputIdD][j].date = validDate(appointments,inputIdD,maxAppointments,false);
 
-          for(int j = 0; j<maxAppointments ;j++ ){
-              if(id == appoPatientId[inputIdD][j] && appoPFlag[inputIdD][j] == true){
-                appoPatient[inputIdD][j] = "NV" ;
-                appoPatientId[inputIdD][j] = -1 ;
-                appoAge[inputIdD][j] = -1 ;
-                appoPFlag[inputIdD][j] = false ;
-                appoDate[inputIdD][j] = "NV" ;
-                appoDFlag[inputIdD][j] = false ;
-                appoGender[inputIdD][j] = "NV" ;
-                appoDisease[inputIdD][j] = "NV" ;
-                cout<<endl ;
-                cout<<"Patient Appointment Deleted Successfully . " <<endl <<endl ;
-                found = true ;
-              }
-          }
-          if(!found){
-            cout<<"Patient Name in Doctor's List with id "<< inputIdD + 1 <<" cannot be found " <<endl <<endl; 
-          }  
-          saveAppointments(appoPatient,appoPFlag,appoDate,appoDFlag,doctorName,appoGender,appoDisease,appoAge,maxAppointments,dsize,appoPatientId);
-          break ;
-        }
-        case 3 :{ // Update Appointments
-          bool found = false ;
-          int id ;
-          cout<<"Enter Patient Id to Update His/Her Appointment : " ;
-          id = getInt() ;
+                        appointments[inputIdD][j].idA = j + 1; // Unique ID
+                        appointments[inputIdD][j].isConfirmed = true;
+                        found = true;
+                        break;
+                    }
+                }
 
-          cout<<"Enter Doctor's Id : " ;
-         inputIdD = getValidinput123() ;
-          inputIdD = inputIdD - 1 ; // doctor id to specify row in 2d array 
+                if (!found) {
+                    cout << "Appointments are full. Cannot set new appointments." << endl;
+                }
+                saveAppointments(appointments,doctors,maxAppointments,dsize) ;  
+                break;
+            }
+            case 2: { // Delete Appointment
+                bool found = false;
+                int id;
+                cout << "Enter Patient ID to delete their appointment: ";
+                id = getInt();
 
-          for(int j = 0 ; j<maxAppointments ; j++){
-             if(id == appoPatientId[inputIdD][j] && appoPFlag[inputIdD][j] == true){
-               cout<<"Enter Updated Name : ";
-               //cin.ignore() ;
-               getline(cin,appoPatient[inputIdD][j]); 
-               cout<<endl ;
-               
-               cout<<"Enter Patient's Age : ";
-               appoAge[inputIdD][j] = validAge();
+                cout << "Enter Doctor's ID: ";
+                inputIdD = getValidinput123();
+                inputIdD -= 1;
 
-               cout<<"Enter Gender :" ;
-               appoGender[inputIdD][j] = validGen() ;
+                for (int j = 0; j < maxAppointments; j++) {
+                    if (appointments[inputIdD][j].idA == id && appointments[inputIdD][j].isConfirmed) {
+                        appointments[inputIdD][j] = {"NV", "NV", "NV", "NV", -1,-1, false};
+                        cout << "Appointment deleted successfully." << endl;
+                        found = true;
+                        break;
+                    }
+                }
 
-               cout<<"Enter Disease : " ;
-               cin.ignore() ;
-               getline(cin,appoDisease[inputIdD][j]) ;
-               
-               cout<<"Already Selected Date is :" ;
-               cout<< appoDate[inputIdD][j] <<endl ;
+                if (!found) {
+                    cout << "Appointment not found for the given ID." << endl;
+                }
+                saveAppointments(appointments,doctors,maxAppointments,dsize) ; 
+                break;
+            }
+            case 3: { // Update Appointment
+                bool found = false;
+                int id;
+                cout << "Enter Patient ID to update their appointment: ";
+                id = getInt();
 
-               cout<<"Enter Updated Date : " ;
-               appoDate[inputIdD][j] = validDate(appoDate,inputIdD,maxAppointments) ;
-               found = true ;
-             }
-          }
-          if(!found){
-             cout<<"Patient Name in Doctor's List with id "<< inputIdD + 1 <<" cannot be found " <<endl <<endl; 
-          } 
-         saveAppointments(appoPatient,appoPFlag,appoDate,appoDFlag,doctorName,appoGender,appoDisease,appoAge,maxAppointments,dsize,appoPatientId);
-          break ;
-        }
-        case 4 :{  // List  
-          bool found1 = false ;
+                cout << "Enter Doctor's ID: ";
+                inputIdD = getValidinput123();
+                inputIdD -= 1;
+
+                for (int j = 0; j < maxAppointments; j++) {
+                    if (appointments[inputIdD][j].idA == id && appointments[inputIdD][j].isConfirmed) {
+                        cout << "Enter Updated Patient Name: ";
+                        getline(cin, appointments[inputIdD][j].name);
+
+                        cout<<"Enter Patient's Age : " ;
+                        appointments[inputIdD][j].age = validAge() ;
+
+                        cout << "Enter Updated Gender (male/female): ";
+                        appointments[inputIdD][j].gender = validGen();
+
+                        cout << "Enter Updated Disease: ";
+                        cin.ignore() ;
+                        getline(cin, appointments[inputIdD][j].disease);
+
+                        cout << "Current Appointment Date: " << appointments[inputIdD][j].date << endl;
+                        cout << "Enter Updated Appointment Date: ";
+                        appointments[inputIdD][j].date = validDate(appointments,inputIdD,maxAppointments,true);
+
+                        found = true;
+                        break;
+                    }
+                }
+                
+                if (!found) {
+                    cout << "Appointment not found for the given ID." << endl;
+                }
+                saveAppointments(appointments,doctors,maxAppointments,dsize) ; 
+                break;
+            }
+            case 4: { // Appointments List
+               bool found1 = false ;
           bool found2 = false ;
           cout<<" Enter Doctor's ID to check thier list " ;
           inputIdD = getValidinput123() ;
@@ -1211,8 +1188,8 @@ void recA(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool 
           cout<< " Doctor's ID\t\t"<< "Doctor's Name  " <<endl  ;
           cout<<"==============================================" <<endl ;
       
-             if(docFlag[inputIdD] == true ){             
-             cout<<idD[inputIdD] <<"\t\t\t" << doctorName[inputIdD] << endl ; 
+             if(doctors[inputIdD].isDoc == true ){             
+             cout<<doctors[inputIdD].idD <<"\t\t\t" << doctors[inputIdD].name << endl ; 
              found1 = true ;
              cout<<endl ;
              cout<<endl ;
@@ -1226,9 +1203,9 @@ void recA(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool 
              
              
              for(int j= 0 ;j<maxAppointments ; j++){
-             if(appoPFlag[inputIdD][j] == true){
+             if(appointments[inputIdD][j].isConfirmed == true){
              cout<<left ; 
-             cout<<setw(20)<< appoPatientId[inputIdD][j] <<setw(30) <<appoPatient[inputIdD][j] << appoDate[inputIdD][j] <<endl;
+             cout<<setw(20)<<  appointments[inputIdD][j].idA <<setw(30) <<appointments[inputIdD][j].name << appointments[inputIdD][j].date <<endl;
              found2 = true ;
              }
             }
@@ -1245,25 +1222,25 @@ void recA(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool 
            }
            }
           break ;
+            }
+            case 5: { // Doctor's List
+                docListA(doctors, dsize);
+                break;
+            }
+            case 0:
+                cout << "Exiting Appointment Section." << endl;
+                saveAppointments(appointments,doctors,maxAppointments,dsize) ; 
+                break;
+            default:
+                cout << "Invalid input. Please try again." << endl;
+                break;
         }
-        case 5 : {
-           docListA(doctorName ,idD, docFlag,dsize) ;
-          break ;
-        }
-        case 0 :{
-          cout<<"Exiting Appointment Section ." <<endl ;
-           saveAppointments(appoPatient,appoPFlag,appoDate,appoDFlag,doctorName,appoGender,appoDisease,appoAge,maxAppointments,dsize,appoPatientId);
-          cout<<endl ;
-          break ;
-        }
-       }
-
-
-      }while(input !=0 );
-}     
+    } while (input != 0);
+}
+    
 
 // Bills 
-void recB(string patient[], bool bed[], int idP[], int ageP[], int psize,  string appoPatient[][5], bool appoPFlag[][5], int dsize,int oneDay, int appointment , int appoPatientId[][5]){
+void recB(patient patients[],appoint appointments[][5],bool bed[], int psize, int dsize,int oneDay, int appointment ){
      int input , bill ,days , id , idD;
      
      cout<<'\n' ;
@@ -1290,11 +1267,11 @@ void recB(string patient[], bool bed[], int idP[], int ageP[], int psize,  strin
             cin >> id; 
 
             for (int i = 0 ; i < psize; i++) {
-                if (idP[i] == id  && bed[i]) {
+                if (patients[i].idP == id  && bed[i]) {
                     cout << "Enter number of days patient stayed: ";
                     days = getInt() ;
                     bill = days * oneDay;
-                    cout << "Patient Name: " << patient[i] << endl;
+                    cout << "Patient Name: " << patients[i].name << endl;
                     cout << "Number of Days: " << days << endl;
                     cout << "Total Bill (Admitted): " << bill << " Rs" << endl;
                     found1 = true;
@@ -1318,9 +1295,9 @@ void recB(string patient[], bool bed[], int idP[], int ageP[], int psize,  strin
             
             
                 for (int j = 0; j < 5; j++) {
-                    if (appoPFlag[idD][j] == true && id == appoPatientId[idD][j]) {
+                    if (appointments[idD][j].isConfirmed == true && id == appointments[idD][j].idA) {
                         bill = appointment; 
-                        cout << "Patient Name: " << appoPatient[idD][j] << endl;
+                        cout << "Patient Name: " << appointments[idD][j].name << endl;
                         cout << "Total Bill (Appointment): " << bill << " Rs" << endl;
                         found2 = true;
                         break;
@@ -1343,13 +1320,12 @@ void recB(string patient[], bool bed[], int idP[], int ageP[], int psize,  strin
 }while(input != 0 ) ;
 }
 
-
 // Doctor  1  Patients Details
 
-void docP1(string appoPatient[][5],bool appoPFlag[][5],string  appoGender[][5] ,string  appoDisease[][5] , int appoAge[][5],int maxAppointments,int appoPatientId[][5]){
-      string name ;
+void docP1(appoint appointments[][5],int maxAppointments){
       bool found = false ; 
-      int docID = 0 ,id ;
+      int id ;
+      int docId = 0 ;
       cout<<'\n' ; 
       cout<<" ====================="  <<endl ;
       cout<<"        DOCTOR        "  <<endl ;
@@ -1362,9 +1338,10 @@ void docP1(string appoPatient[][5],bool appoPFlag[][5],string  appoGender[][5] ,
       cout<<"Patient's Id \t"<<" Patient's Name \t\t"<<"  Patient's Age\t\t"<<"Gender\t\t"<<" Disease" <<endl;
       cout<<"======================================================================================================="<<endl ; 
       for(int j= 0 ;j<maxAppointments ;j++){
-         if(appoPFlag[docID][j] == true && id == appoPatientId[docID][j]){
+         if(appointments[docId][j].isConfirmed == true && id == appointments[docId][j].idA){
           cout<<left ;  
-          cout<<setw(20)<<appoPatientId[docID][j] <<setw(30) <<appoPatient[docID][j]<<setw(20)<<appoAge[docID][j]<<setw(20)<<appoGender[docID][j]<<setw(30)<<appoDisease[docID][j]  <<endl ;
+          cout<<setw(20)<<appointments[docId][j].idA <<setw(30) <<appointments[docId][j].name<<setw(20)<<appointments[docId][j].age 
+          <<setw(20)<<appointments[docId][j].gender<<setw(30)<<appointments[docId][j].disease  <<endl ;
           found = true ;
          }
       }   
@@ -1375,7 +1352,8 @@ void docP1(string appoPatient[][5],bool appoPFlag[][5],string  appoGender[][5] ,
       
 }
 // Doctor  1  Appointments lista
-void docA1(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool appoDFlag[][5],string doctor[],int idD[],bool docFlag[],int maxAppointments,int appoPatientId[][5]){
+void docA1(appoint appointments[][5],doctor doctors[] ,  int maxAppointments){
+     int docId = 0 ;
      cout<<'\n' ; 
      cout<<" ====================="  <<endl ;
      cout<<"        DOCTOR        "  <<endl ;
@@ -1389,9 +1367,9 @@ void docA1(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool
      cout<<"Doctor's ID\t\t"<< "Doctor' Name \t" <<endl  ;
      cout<<"==============================================" <<endl ;
    
-     if(docFlag[0] == true ){
+     if( doctors [docId].isDoc == true ){
              
-     cout<<idD[0] <<"\t\t\t" << "Dr. "<< doctor[0] << endl ; 
+     cout<<doctors [docId].idD <<"\t\t\t" << "Dr. "<< doctors [docId].name << endl ; 
             
      found1 = true ;
      }
@@ -1402,9 +1380,9 @@ void docA1(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool
         }
              
       for(int j= 0 ;j<maxAppointments ; j++){
-         if(appoPFlag[0][j] == true){
+         if(appointments[docId][j].isConfirmed == true){
             cout<<left ;
-            cout<<setw(20)<<appoPatientId[0][j]<< setw(30) <<appoPatient[0][j] <<appoDate[0][j] <<endl;
+            cout<<setw(20)<<appointments[docId][j].idA<< setw(30) <<appointments[docId][j].name <<appointments[docId][j].date <<endl;
             found2 = true ;
             }
           }
@@ -1419,35 +1397,37 @@ void docA1(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool
 }
 
 // Doctor  1  Patients Details
-void docP2(string appoPatient[][5],bool appoPFlag[][5],string  appoGender[][5] ,string  appoDisease[][5] , int appoAge[][5],int maxAppointments,int appoPatientId[][5]){
+void docP2(appoint appointments[][5],int maxAppointments ){
       bool found = false ; 
-      int docID = 1 , id ;
+      int id ;
+      int docId = 1 ;
       cout<<'\n' ; 
       cout<<" ====================="  <<endl ;
       cout<<"        DOCTOR        "  <<endl ;
       cout<<" ====================="  <<endl ;
-      cout<<'\n' ;      
+      cout<<'\n' ; 
+      cout<<"Enter Patient ID to see thier details : "  ;
+      id =getInt() ;   
 
-      cout<<"Enter Patient Id to see thier details : "  ;
-      id = getInt() ;   
-
-      cout<<"====================================================================================================="<<endl ; 
-      cout<<"Patient's Id \t"<<"  Patient's Name \t\t"<<"  Patient's Age\t\t"<<"Gender\t\t"<<" Disease" <<endl;
-      cout<<"======================================================================================================"<<endl ; 
+      cout<<"======================================================================================================="<<endl ; 
+      cout<<"Patient's Id \t"<<" Patient's Name \t\t"<<"  Patient's Age\t\t"<<"Gender\t\t"<<" Disease" <<endl;
+      cout<<"======================================================================================================="<<endl ; 
       for(int j= 0 ;j<maxAppointments ;j++){
-         if(appoPFlag[docID][j] == true && id == appoPatientId[docID][j]){
+         if(appointments[docId][j].isConfirmed == true && id == appointments[docId][j].idA){
           cout<<left ;  
-          cout<<setw(20)<<appoPatientId[docID][j]<<setw(30) <<appoPatient[docID][j]<<setw(20)<<appoAge[docID][j]<<setw(20)<<appoGender[docID][j]<<setw(30)<<appoDisease[docID][j]  <<endl ;
+          cout<<setw(20)<<appointments[docId][j].idA <<setw(30) <<appointments[docId][j].name<<setw(20)<<appointments[docId][j].age <<setw(20)<<appointments[docId][j].gender<<setw(30)<<appointments[docId][j].disease  <<endl ;
           found = true ;
          }
       }   
       if(!found){
         cout<<"No Data!!" <<endl <<endl ;
       }
+
 } 
 // Doctor  2  Appointments lists 
 
-void docA2(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool appoDFlag[][5],string doctor[],int idD[],bool docFlag[],int maxAppointments,int appoPatientId[][5]){
+void docA2(appoint appointments[][5],doctor doctors[] , int maxAppointments){
+     int docId = 1 ;
      cout<<'\n' ; 
      cout<<" ====================="  <<endl ;
      cout<<"        DOCTOR        "  <<endl ;
@@ -1461,92 +1441,22 @@ void docA2(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool
      cout<<"Doctor's ID\t\t"<< "Doctor' Name \t" <<endl  ;
      cout<<"==============================================" <<endl ;
    
-     if(docFlag[1] == true ){
+     if( doctors [docId].isDoc == true ){
              
-     cout<<idD[1] <<"\t\t\t" << doctor[1] << endl ; 
+     cout<<doctors [docId].idD <<"\t\t\t" << "Dr. "<< doctors [docId].name << endl ; 
             
      found1 = true ;
      }
      if(found1){
-      cout<<"==========================================================================" <<endl ;
-      cout<<left ;
-      cout<<setw(20) <<"Patient's Id "<<setw(30) <<"Patient's Name "<< "Appointments" <<endl ;
-      cout<<"===========================================================================" <<endl ;
-      }
-             
-      for(int j= 0 ;j<maxAppointments ; j++){
-         if(appoPFlag[1][j] == true){
-            cout<<setw(20)<<appoPatientId[1][j]<< setw(30) <<appoPatient[1][j] <<appoDate[1][j] <<endl;
-            found2 = true ;
-            }
-          }
-          if(!found1){
-              cout<<"No Doctors Have been added yet By Admin ! "<<endl <<endl  ;
-          }
-          if(!found2){
-              cout<<"This Doctor has no appointments Scheduled.!" <<endl <<endl  ;
-         }
-
-}
-
-// Doctor  1  Patients Details
-
-void docP3(string appoPatient[][5],bool appoPFlag[][5],string  appoGender[][5] ,string  appoDisease[][5] , int appoAge[][5],int maxAppointments,int appoPatientId[][5]){
-  
-      bool found = false ; 
-      int docID = 2 , id;
-      cout<<'\n' ; 
-      cout<<" ====================="  <<endl ;
-      cout<<"        DOCTOR        "  <<endl ;
-      cout<<" ====================="  <<endl ;
-      cout<<'\n' ; 
-      cout<<"Enter Patient Id to see thier details : "  ;
-      id = getInt() ;   
-
-      cout<<"=================================================================================================="<<endl ; 
-      cout<<"Patient's Name \t"<<"  Patient's Name \t\t"<<"  Patient's Age\t\t"<<"Gender\t\t"<<"Disease" <<endl;
-      cout<<"=================================================================================================="<<endl ; 
-      for(int j= 0 ;j<maxAppointments ;j++){
-         if(appoPFlag[docID][j] == true && id == appoPatientId[docID][j]){
-          cout<<left ;  
-          cout<<setw(20)<< appoPatientId[docID][j] <<setw(30) <<appoPatient[docID][j]<<setw(20)<<appoAge[docID][j]<<setw(20)<<appoGender[docID][j]<<setw(30)<<appoDisease[docID][j]  <<endl ;
-          found = true ;
-         }
-      }   
-      if(!found){
-        cout<<"No Data!!" <<endl <<endl ;
-      }
-}
-// Doctor  3  Appointments lists
-void docA3(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool appoDFlag[][5],string doctor[],int idD[],bool docFlag[],int maxAppointments,int appoPatientId[][5]){
-     cout<<'\n' ; 
-     cout<<" ====================="  <<endl ;
-     cout<<"        DOCTOR        "  <<endl ;
-     cout<<" ====================="  <<endl ;
-     cout<<'\n' ;      
-     
-    bool found1 = false ;
-     bool found2 = false ;
-     
-     cout<<"==============================================" <<endl ; 
-     cout<<"Doctor's ID\t\t"<< "Doctor' Name \t" <<endl  ;
-     cout<<"==============================================" <<endl ;
-   
-     if(docFlag[2] == true ){
-             
-     cout<<idD[2] <<"\t\t\t" << doctor[2] << endl ; 
-            
-     found1 = true ;
-     }
-     if(found1){
-        cout<<"=============================================================" <<endl ;
-        cout<<"Patient's ID \t\t"<<"Patient's Name \t\t"<< "Appointments" <<endl ;
-        cout<<"=============================================================" <<endl ;
+        cout<<"=====================================================================" <<endl ;
+        cout<<"Patient's Id \t"<<"Patient's Name \t\t"<< "          Appointments" <<endl ;
+        cout<<"=====================================================================" <<endl ;
         }
              
       for(int j= 0 ;j<maxAppointments ; j++){
-         if(appoPFlag[2][j] == true){
-            cout<<setw(20)<< appoPatientId[2][j]<<setw(30) <<appoPatient[2][j] <<appoDate[2][j] <<endl;
+         if(appointments[docId][j].isConfirmed == true){
+            cout<<left ;
+            cout<<setw(20)<<appointments[docId][j].idA<< setw(30) <<appointments[docId][j].name <<appointments[docId][j].date <<endl;
             found2 = true ;
             }
           }
@@ -1554,22 +1464,95 @@ void docA3(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool
               cout<<"No Doctors Have been added yet By Admin ! "<<endl <<endl ;
           }
           if(!found2){
-              cout<<"This Doctor has no appointments Scheduled.!" <<endl <<endl  ;
+              cout<<"This Doctor has no appointments Scheduled.!" <<endl  <<endl ;
+         }
+}
+
+// Doctor  1  Patients Details
+
+void docP3(appoint appointments[][5],int maxAppointments ){
+  
+      bool found = false ; 
+      int id ;
+      int docId = 2 ;
+      cout<<'\n' ; 
+      cout<<" ====================="  <<endl ;
+      cout<<"        DOCTOR        "  <<endl ;
+      cout<<" ====================="  <<endl ;
+      cout<<'\n' ; 
+      cout<<"Enter Patient ID to see thier details : "  ;
+      id =getInt() ;   
+
+      cout<<"======================================================================================================="<<endl ; 
+      cout<<"Patient's Id \t"<<" Patient's Name \t\t"<<"  Patient's Age\t\t"<<"Gender\t\t"<<" Disease" <<endl;
+      cout<<"======================================================================================================="<<endl ; 
+      for(int j= 0 ;j<maxAppointments ;j++){
+         if(appointments[docId][j].isConfirmed == true && id == appointments[docId][j].idA){
+          cout<<left ;  
+          cout<<setw(20)<<appointments[docId][j].idA <<setw(30) <<appointments[docId][j].name<<setw(20)<<appointments[docId][j].age <<setw(20)<<appointments[docId][j].gender<<setw(30)<<appointments[docId][j].disease  <<endl ;
+          found = true ;
+         }
+      }   
+      if(!found){
+        cout<<"No Data!!" <<endl <<endl ;
+      }
+
+}
+// Doctor  3  Appointments lists
+void docA3(appoint appointments[][5],doctor doctors[] ,  int maxAppointments){
+     int docId = 2 ;
+     cout<<'\n' ; 
+     cout<<" ====================="  <<endl ;
+     cout<<"        DOCTOR        "  <<endl ;
+     cout<<" ====================="  <<endl ;
+     cout<<'\n' ;      
+     
+     bool found1 = false ;
+     bool found2 = false ;
+     
+     cout<<"==============================================" <<endl ; 
+     cout<<"Doctor's ID\t\t"<< "Doctor' Name \t" <<endl  ;
+     cout<<"==============================================" <<endl ;
+   
+     if( doctors [docId].isDoc == true ){
+             
+     cout<<doctors [docId].idD <<"\t\t\t" << "Dr. "<< doctors [docId].name << endl ; 
+            
+     found1 = true ;
+     }
+     if(found1){
+        cout<<"=====================================================================" <<endl ;
+        cout<<"Patient's Id \t"<<"Patient's Name \t\t"<< "          Appointments" <<endl ;
+        cout<<"=====================================================================" <<endl ;
+        }
+             
+      for(int j= 0 ;j<maxAppointments ; j++){
+         if(appointments[docId][j].isConfirmed == true){
+            cout<<left ;
+            cout<<setw(20)<<appointments[docId][j].idA<< setw(30) <<appointments[docId][j].name <<appointments[docId][j].date <<endl;
+            found2 = true ;
+            }
+          }
+          if(!found1){
+              cout<<"No Doctors Have been added yet By Admin ! "<<endl <<endl ;
+          }
+          if(!found2){
+              cout<<"This Doctor has no appointments Scheduled.!" <<endl  <<endl ;
          }
 
 }
 
 // Doctors List 
-void docList(string doctor[],string pwdD[],int idD[],bool docFlag[] ,string doctorName [] ,int doctorAge[], string doctorGender[],int dsize){
+void docList(doctor doctors[] , int dsize){
      bool found = false ;
-     cout<<"==========================================================================================================================================================" <<endl ;
-     cout<<"No.of \t"<<"Doctor's id \t" << " Doctor's Name \t\t\t" <<"  Doctor's Age \t\t" << "Doctor's Gender\t\t " << "Doctor's UserName \t\t"<<"Doctor's Password " <<endl ; 
-     cout<<"==========================================================================================================================================================" <<endl ;
+     cout<<"============================================================================================================================================================================================" <<endl ;
+     cout<<"No.of \t"<<"Doctor's id \t" << " Doctor's Name \t\t" <<"Doctor's Age \t" << "Doctor's Gender\t "<< "  Doctor's Specialization \t" << "Doctor's UserName \t"<<"Doctor's Password " <<endl ; 
+     cout<<"============================================================================================================================================================================================" <<endl ;
           
      for(int i = 0 , j= 1 ; i<dsize ;i++){
-         if(docFlag[i]){
+         if(doctors[i].isDoc){
          cout<<left ;   
-         cout<<setw(10) << j << setw(15) <<idD[i] <<setw(32)<< doctorName[i] << setw(25) << doctorAge[i] <<setw(25) << doctorGender[i] <<setw(30) <<doctor[i]<< setw(25)<< pwdD[i] <<endl ;
+         cout<<setw(10) << j << setw(15) << doctors[i].idD <<setw(25)<<  doctors[i].name << setw(18) << doctors[i].age <<setw(18) << doctors[i].gender<<setw(27)<<doctors[i].category<< setw(24) <<doctors[i].userName<< setw(18)<< doctors[i].pwdD <<endl ;
          found = true ;   
          j++ ;
          }
@@ -1579,16 +1562,16 @@ void docList(string doctor[],string pwdD[],int idD[],bool docFlag[] ,string doct
 }
 
 //Doctors to be represented in Appointments Section
-void docListA(string doctorName[],int idD[] ,bool docFlag[] , int dsize ){
+void docListA(doctor doctors[] , int dsize ){
      bool found = false ;
-     cout<<"=======================================================" <<endl ;
-     cout<<"No.of \t"<<"Doctor's id \t" << "     Doctor's UserName \t"   <<endl ; 
-     cout<<"=======================================================" <<endl ;
+     cout<<"======================================================================================" <<endl ;
+     cout<<"No.of \t"  <<"Doctor's id \t" << "     Doctor's Name \t" << "           Doctor's Specializion "  <<endl ; 
+     cout<<"======================================================================================" <<endl ;
           
      for(int i = 0 , j= 1 ; i<dsize ;i++){
-         if(docFlag[i]){
+         if(doctors[i].isDoc){
          cout<<left ;
-         cout<<setw(10) << j <<setw(20) <<idD[i]  <<"Dr. "<< doctorName[i]   <<endl ;
+         cout<<setw(10) << j <<setw(20) << doctors[i].idD  << setw(30) <<"Dr. " + doctors[i].name << doctors[i].category <<endl ;
          found = true ;   
          j++ ;
          }
@@ -1597,7 +1580,7 @@ void docListA(string doctorName[],int idD[] ,bool docFlag[] , int dsize ){
      cout<<"No Doctors Available in Hospital . " <<endl <<endl  ;  
 }
 
-void appoinList(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool appoDFlag[][5],string doctor[],int idD[],bool docFlag[],int dsize){
+void appoinList( appoint appointments[][5],doctor doctors[] ,int dsize){
 
      int inputIdD ;
      bool found1 = false ;
@@ -1612,9 +1595,9 @@ void appoinList(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5]
 
           
           
-     if(docFlag[inputIdD] == true ){
+     if(doctors[inputIdD].isDoc == true ){
              
-     cout<<idD[inputIdD] <<"\t\t\t" << doctor[inputIdD] << endl ; 
+     cout<<doctors[inputIdD].idD <<"\t\t\t" << doctors[inputIdD].name << endl ; 
             
      found1 = true ;
      }
@@ -1625,8 +1608,8 @@ void appoinList(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5]
         }
              
       for(int j= 0 ;j<dsize ; j++){
-         if(appoPFlag[inputIdD][j] == true){
-            cout<<appoPatient[inputIdD][j] <<"\t\t\t"<<appoDate[inputIdD][j] <<endl;
+         if(appointments[inputIdD][j].isConfirmed == true){
+            cout<<appointments[inputIdD][j].name <<"\t\t\t"<<appointments[inputIdD][j].date <<endl;
             found2 = true ;
             }
           }
@@ -1803,7 +1786,7 @@ int toInt(const string &str , int st , int end ){
 
 
 //Ensure that the user enter valid date in correct format
-string validDate(string appoDate[][5], int inputidD,int maxAppointments){
+string validDate(appoint appointments[][5], int inputidD, int maxAppointments,bool update) {
        string date ;
        int daysinMon[] = {31,28,31,30,31,30,31,31,30,31,30,31} ;
        bool dateFound = false ;
@@ -1847,233 +1830,25 @@ string validDate(string appoDate[][5], int inputidD,int maxAppointments){
              }
 
              // loop to check whether the date is already scheduled or not
+             if(!update){   
+            //  in updation this will not  check whether date exist or not but in new apppointment it will check the
+            // dates to avoid collision 
              for(int j =0; j<maxAppointments ; j++){
-                if(date == appoDate[inputidD][j]){
+                if(date == appointments[inputidD][j].date){
                   cout<<"This date is already scheduled . So please select other date ." <<endl ;
                   dateFound = true ;
                   break;                
                   }
              }  
-             if(dateFound) continue; 
+             if(dateFound) continue;
+             } 
 
              return date ;
        }
 } 
 
-// Save Patient Data
-void savePatientData(string patient[] ,int ageP[] , bool pFlag[] , int idP[],string gender[],string disease[] , int psize){
 
-     ofstream data ;
-     data.open("patients.txt") ;   
-     if(data.is_open()){
-       for(int i= 0 ; i<psize ; i++){
-           if(pFlag[i] == true){
-              data<< idP[i] << "," << patient[i] << "," << ageP[i] << "," << gender[i] << "," <<disease[i] <<endl ; 
-           }
-       }
-       data.close() ;
-     }
-     else {
-       cout<<"Failed to open Patients Files !! " <<endl ;
-     }   
-
-}
-// Save Appointments
-void saveAppointments(string appoPatient[][5],bool appoPFlag[][5],string appoDate[][5],bool appoDFlag[][5],string doctor[],string  appoGender[][5] ,string  appoDisease[][5] , int appoAge[][5] , int maxAppointments,int dsize,int appoPatientId[][5] ){
-
-     ofstream data ;
-     data.open("appointments.txt") ;
-     if(data.is_open()){
-      for(int i = 0 ; i<dsize ; i++){
-        for(int j = 0 ; j< maxAppointments ; j++){
-          if(appoPFlag[i][j] && appoDFlag[i][j] )
-            data << i+1 << "," << doctor[i] <<","<<appoPatientId[i][j] <<"," <<appoPatient[i][j] << "," << appoAge[i][j] <<","<<appoGender[i][j] <<"," <<appoDisease[i][j]  << ","<<appoDate[i][j]  <<endl ; 
-           }
-      } 
-           data.close() ;
-      }
-     else{
-      cout<<"Failed to open appointments file !! " <<endl ;
-     }
-
-}
-// save Doctors data
-void saveDoctorsData(string doctor[],string pwdD[],int idD[],bool docFlag[] ,string doctorName [] ,int doctorAge[], string doctorGender[],int dsize ){
-      ofstream data ;
-      data.open("doctor.txt") ;
-      if(data.is_open()){
-        for(int i = 0 ; i< dsize ; i++){
-           if(docFlag[i]  == true){
-             data<< idD[i] <<"," << doctorName[i] <<","<< doctorAge[i]<<","<<doctorGender[i]<<","<<doctor[i]<<"," <<pwdD[i] <<endl ;
-           } 
-        }
-        data.close() ;
-      }
-      else{
-        cout<<"Unable to open receptionist file. "<<endl ;
-      }
-}
-// save receptionist data
-void saveReceptionist(string receptionist[] , string pwdR[],int idR[] ,bool recFlag[] ,string receptionistName[],int receptionistAge[], string receptionistGender[], int rsize){
-    ofstream data ;
-    data.open("receptionist.txt") ;
-    if(data.is_open()){
-      for(int i= 0; i<rsize ; i++){
-         if(recFlag[i]){
-          data<< idR[i] <<","<< receptionistName[i] <<","<<receptionistAge[i]<<","<<receptionistGender[i]<<","<<receptionist[i]<<","<<pwdR[i] <<endl ;
-         }
-      }
-      data.close() ; 
-    }
-    else{
-      cout<<"Unable to open Receptionist File. "<<endl ;
-    }
-}
-// load receptionist data
-
-void loadReceptionistData(string receptionist[] , string pwdR[],int idR[] ,bool recFlag[] ,string receptionistName[],int receptionistAge[], string receptionistGender[], int rsize){
-     ifstream load ;
-     load.open("receptionist.txt") ;
-     if(load.is_open()){
-     for(int i = 0 ;i< rsize ; i++){
-
-        load>> idR[i] ;
-        load.ignore() ;
-        if( getline(load,receptionistName[i],',') 
-            && load >> receptionistAge[i] 
-            && load.ignore() 
-            && getline(load,receptionistGender[i] , ',')
-            && getline(load,receptionist[i],',' )
-            && getline(load,pwdR[i])){
-
-            recFlag[i] = true ;
-        }
-        else break ;
-        
-     }
-     load.close() ;
-     }
-     else {
-      cout<<"Unable to load receptionist Data !!" <<endl ;
-     }
-}
-
-// load Doctor's Data
-
-void loadDoctorData(string doctor[],string pwdD[],int idD[],bool docFlag[] ,string doctorName [] ,int doctorAge[], string doctorGender[],int dsize){
-     ifstream load ;
-     load.open("doctor.txt") ;
-     if(load.is_open()){
-     for(int i = 0 ;i< dsize ; i++){
-
-        load>> idD[i] ;
-        load.ignore() ;
-
-        if( getline(load,doctorName[i],',') 
-            && load >> doctorAge[i]
-            && load.ignore() 
-            && getline(load,doctorGender[i] ,',') 
-            && getline(load,doctor[i],',') 
-            && getline(load,pwdD[i] ) ){
-
-            docFlag[i] = true ;
-
-        }
-        else{ 
-         break ;
-        }
-        
-     }
-     load.close() ;
-     }
-     else {
-      cout<<"Unable to load Doctor Data !!" <<endl ;
-     }
-}
-
-// load receptionist data
-void loadPatientData(string patient[],int idP[],bool pFlag[] , int ageP[],string gender[] , string disease[] , int psize,bool bed[]){
-    ifstream load ;
-    load.open("patients.txt") ;
-    if(load.is_open()){
-      for(int i = 0; i<psize ; i++){
-         load>>idP[i]  ;
-         load.ignore() ;
-
-         if(
-         getline(load,patient[i],',') && 
-         load>>ageP[i]  &&
-         load.ignore()  && 
-         getline(load,gender[i],',') && 
-         getline(load,disease[i]) ){
-           pFlag[i] = true ;
-           bed[i] = true ;
-
-         }
-         else {
-           break ;
-         } 
-         
-      }
-      load.close() ;
-    }
-    else{
-      cout<<"Failed to load Patients Data !!" <<endl ;
-    }
-}
-//load appointments Data
-
-void loadAppointments(string appoPatient[][5], int appoAge[][5], bool appoPFlag[][5], string appoDate[][5], bool appoDFlag[][5], string appoGender[][5],string appoDisease[][5], int dsize, int maxAppointments,int appoPatientId[][5]) {
-    ifstream load("appointments.txt");
-    if (load.is_open()) {
-        string line;
-        while (getline(load, line)) {
-            stringstream d(line) ;
-            int Id;
-            string tempN;
-
-            d >> Id;  
-            d.ignore(); 
-            Id = Id - 1; 
-
-            if (!getline(d, tempN, ',')) break; 
-
-            for (int j = 0; j < maxAppointments; j++) {
-                if (!appoPFlag[Id][j] && !appoDFlag[Id][j]) {
-                    string patient , gender , date , disease ;
-                    int age ,patientId ;  
-
-                    if (d >> patientId  &&
-                        d.ignore()   && 
-                        getline(d, patient , ',') &&
-                        d >> age  &&
-                        d.ignore() &&  
-                        getline(d, gender, ',') &&
-                        getline(d, disease, ',') &&
-                        getline(d, date)) {
-                        
-                        appoPatientId[Id][j] = patientId ;
-                        appoPatient[Id][j] = patient ;
-                        appoAge[Id][j] = age ;
-                        appoGender[Id][j] = gender ;
-                        appoDisease[Id][j] = disease ;
-                        appoDate[Id][j] = date ;
-
-                        appoPFlag[Id][j] = true;
-                        appoDFlag[Id][j] = true;
-                    }
-                }
-            }
-        }
-        load.close();
-    } else {
-        cout << "Failed to load Appointments!!" << endl;
-    }
-}
-
-// This Function will ensure that that receptionist userName is specific
-
-string uniqueRecUser(string receptionist[],int rsize  ){
+string uniqueRecUser(receptionist recs[],int rsize,bool update ){
       string userName ;
       bool isUnique = true ;
       
@@ -2090,9 +1865,12 @@ string uniqueRecUser(string receptionist[],int rsize  ){
          }
       }
       if(space) continue; 
-
+      
+      if(!update){ 
+      // if update is true means updation process is going and same userName can be used
+      // if it is false then a new userName will be assigned which will not a duplicate one  
       for(int i = 0 ; i<rsize ; i++){
-        if(userName == receptionist[i]){
+        if(userName == recs[i].userName){
            isUnique = false ; 
            break ;       
         }
@@ -2105,6 +1883,8 @@ string uniqueRecUser(string receptionist[],int rsize  ){
         cout<<"This Username already exist . Enter Again : " ;
         isUnique = true ;
       }
+      }
+      else return userName ;
 
       }
     
@@ -2112,7 +1892,7 @@ string uniqueRecUser(string receptionist[],int rsize  ){
 
 // This Function will ensure that that Doctor userName is specific
 
-string uniqueDocUser(string doctor[] , int dsize ){
+string uniqueDocUser(doctor doctors[] , int dsize,bool update ){
       string userName ;
       bool isUnique = true ;
       
@@ -2130,21 +1910,24 @@ string uniqueDocUser(string doctor[] , int dsize ){
       }
       
       if(space) continue; 
-
+      
+      if(!update){
+      // if update is true means updation process is going and same userName can be used
+      // if it is false then a new userName will be assigned which will not a duplicate one    
       for(int i = 0 ; i<dsize ; i++){
-        if(userName == doctor[i]){
+        if(userName == doctors[i].userName){
            isUnique = false ; 
            break ;       
         }
       }
-      if(isUnique) {
+      if(isUnique) 
         return userName ;
-        break ;
-      }
       else {
         cout<<"This Username already exist . Enter Again : " ;
         isUnique = true ;
       }
+      }
+      else return userName ;
 
       } 
       }
@@ -2164,3 +1947,219 @@ int getInt(){
    }  
    }
 }
+
+    //    SAVING AND LOADING FUNCTIONS 
+// Save Patient Data
+void savePatientData(patient patients[] ,  int psize){
+
+     ofstream data ;
+     data.open("patients.txt") ;   
+     if(data.is_open()){
+       for(int i= 0 ; i<psize ; i++){
+           if(patients[i].isPatient == true){
+              data<< patients[i].idP << "," <<patients[i].name << "," << patients[i].age<< ","
+               << patients[i].gender << "," << patients[i].disease <<endl ; 
+           }
+       }
+       data.close() ;
+     }
+     else {
+       cout<<"Failed to open Patients Files !! " <<endl ;
+     }   
+
+}
+// Save Appointments
+void saveAppointments(appoint appointments[][5] ,doctor doctors[] , int maxAppointments,int dsize ){
+
+     ofstream data ;
+     data.open("appointments.txt") ;
+     if(data.is_open()){
+      for(int i = 0 ; i<dsize ; i++){
+        for(int j = 0 ; j< maxAppointments ; j++){
+          if(appointments[i][j].isConfirmed  )
+            data << i+1 << "," << doctors[i].name <<","<<appointments[i][j].idA <<"," <<appointments[i][j].name << "," << appointments[i][j].age <<","<<appointments[i][j].gender <<"," <<appointments[i][j].disease  << ","<<appointments[i][j].date  <<endl ; 
+           }
+      } 
+           data.close() ;
+      }
+     else{
+      cout<<"Failed to open appointments file !! " <<endl ;
+     }
+
+}
+// save Doctors data
+void saveDoctorsData(doctor doctors[] ,int dsize){
+      ofstream data ;
+      data.open("doctor.txt") ;
+      if(data.is_open()){
+        for(int i = 0 ; i< dsize ; i++){
+           if(doctors[i].isDoc  == true){
+             data<< doctors[i].idD <<"," << doctors[i].name <<","<< doctors[i].age<<","<<doctors[i].gender<<","
+             << doctors[i].category <<","<<doctors[i].userName<<"," <<doctors[i].pwdD <<endl ;
+           } 
+        }
+        data.close() ;
+      }
+      else{
+        cout<<"Unable to open receptionist file. "<<endl ;
+      }
+}
+// save receptionist data
+void saveReceptionist(receptionist recs[], int rsize){
+    ofstream data ;
+    data.open("receptionist.txt") ;
+    if(data.is_open()){
+      for(int i= 0; i<rsize ; i++){
+         if(recs[i].isRec){
+          data<< recs[i].idR <<","<< recs[i].name <<","<<recs[i].age<<","<<recs[i].gender<<","<< recs[i].userName <<","<< recs[i].pwdR <<endl ;
+         }
+      }
+      data.close() ; 
+    }
+    else{
+      cout<<"Unable to open Receptionist File. "<<endl ;
+    }
+}
+// load receptionist data
+
+void loadReceptionistData(receptionist recs[], int rsize){
+     ifstream load ;
+     load.open("receptionist.txt") ;
+     if(load.is_open()){
+     for(int i = 0 ;i< rsize ; i++){
+
+        load>> recs[i].idR ;
+        load.ignore() ;
+        if( getline(load,recs[i].name,',') 
+            && load >> recs[i].age
+            && load.ignore() 
+            && getline(load,recs[i].gender , ',')
+            && getline(load,recs[i].userName,',' )
+            && getline(load,recs[i].pwdR)){
+
+            recs[i].isRec = true ;
+        }
+        else break ;
+        
+     }
+     load.close() ;
+     }
+     else {
+      cout<<"Unable to load receptionist Data !!" <<endl ;
+     }
+}
+
+// load Doctor's Data
+
+void loadDoctorData(doctor doctors[] ,int dsize){
+     ifstream load ;
+     load.open("doctor.txt") ;
+     if(load.is_open()){
+     for(int i = 0 ;i< dsize ; i++){
+
+        load>> doctors[i].idD ;
+        load.ignore() ;
+
+        if( getline(load, doctors[i].name,',') 
+            && load >>  doctors[i].age
+            && load.ignore() 
+            && getline(load,doctors[i].gender ,',')
+            && getline(load,doctors[i].category,',') 
+            && getline(load,doctors[i].userName,',') 
+            && getline(load,doctors[i].pwdD  ) ){
+
+           doctors[i].isDoc  = true ;
+
+        }
+        else{ 
+         break ;
+        }
+        
+     }
+     load.close() ;
+     }
+     else {
+      cout<<"Unable to load Doctor Data !!" <<endl ;
+     }
+}
+
+// load patient data
+void loadPatientData(patient patients[] ,  int psize , bool bed[]){
+    ifstream load ;
+    load.open("patients.txt") ;
+    if(load.is_open()){
+      for(int i = 0; i<psize ; i++){
+         load>> patients[i].idP  ;
+         load.ignore() ;
+
+         if(
+         getline(load,patients[i].name ,',') && 
+         load>>patients[i].age  &&
+         load.ignore()  && 
+         getline(load,patients[i].gender,',') && 
+         getline(load,patients[i].disease ) ){
+         patients[i].isPatient = true ;
+         bed[i] = true ;
+
+         }
+         else {
+           break ;
+         } 
+         
+      }
+      load.close() ;
+    }
+    else{
+      cout<<"Failed to load Patients Data !!" <<endl ;
+    }
+}
+//load appointments Data
+
+void loadAppointments(appoint appointments[][5]  , int maxAppointments,int dsize ) {
+    ifstream load("appointments.txt");
+    if (load.is_open()) {
+        string line;
+        while (getline(load, line)) {
+            stringstream d(line) ;
+            int Id;
+            string tempN;
+
+            d >> Id;  
+            d.ignore(); 
+            Id = Id - 1; 
+
+            if (!getline(d, tempN, ',')) break; 
+
+            for (int j = 0; j < maxAppointments; j++) {
+                if (!appointments[Id][j].isConfirmed  ) {
+                    string patient , gender , date , disease ;
+                    int age ,patientId ;  
+
+                    if (d >> patientId  &&
+                        d.ignore()   && 
+                        getline(d, patient , ',') &&
+                        d >> age  &&
+                        d.ignore() &&  
+                        getline(d, gender, ',') &&
+                        getline(d, disease, ',') &&
+                        getline(d, date)) {
+                        
+                        appointments[Id][j].idA = patientId ;
+                        appointments[Id][j].name = patient ;
+                        appointments[Id][j].age = age ;
+                        appointments[Id][j].gender = gender ;
+                        appointments[Id][j].disease = disease ;
+                        appointments[Id][j].date = date ;
+
+                       appointments[Id][j].isConfirmed  = true;
+                    }
+                }
+            }
+        }
+        load.close();
+    } else {
+        cout << "Failed to load Appointments!!" << endl;
+    }
+}
+
+
