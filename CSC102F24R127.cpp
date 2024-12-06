@@ -95,7 +95,7 @@ void loadAppointments(appoint appointments[][5] , int maxAppointments,int dsize 
 
 int main(){
     const int rsize = 2 ; // Number of Receptionist 
-    const int dsize = 10 ; // Number of Doctors 
+    const int dsize = 3 ; // Number of Doctors 
     const int psize = 1000 ; // Number of Patients 
     const int maxAppointments = 5 ;// max number of appointments 
     const int oneDay = 1000 ;    // one day charges of hospital  
