@@ -4,6 +4,7 @@
 #include<cctype>
 #include<string>
 #include<fstream>
+#include<conio.h>
 using namespace std ;
 
 struct doctor{
@@ -42,8 +43,8 @@ struct appoint {
    string date ;
    string gender ;
    string disease ;
-   int idA ;
-   int age ;
+   int  idA ;
+   int  age ;
    bool isConfirmed ;
 } ;
 void header() ;
@@ -57,8 +58,8 @@ void recP(patient patients[] , int psize ,bool bed[] ) ;
 void recA(appoint appointments[][5], doctor doctors[], int dsize, int maxAppointments, bool &msg) ;
 void recB(patient patients[] ,appoint appointments[][5],bool bed[], int psize, int dsize,int oneDay, int appointment );
 
-void docP1(appoint appointments[][5],int maxAppointments ) ;
-void docA1(appoint appointments[][5],doctor doctors[] ,  int maxAppointments) ;
+void docP(appoint appointments[][5],int maxAppointments,int docId  ) ;
+void docA(appoint appointments[][5],doctor doctors[] ,  int maxAppointments ,int docId )  ;
 
 void docP2(appoint appointments[][5],int maxAppointments ) ;
 void docA2(appoint appointments[][5],doctor doctors[] , int maxAppointments) ;
@@ -95,7 +96,7 @@ void loadAppointments(appoint appointments[][5] , int maxAppointments,int dsize 
 
 int main(){
     const int rsize = 2 ; // Number of Receptionist 
-    const int dsize = 3 ; // Number of Doctors 
+    const int dsize = 10 ; // Number of Doctors 
     const int psize = 1000 ; // Number of Patients 
     const int maxAppointments = 5 ;// max number of appointments 
     const int oneDay = 1000 ;    // one day charges of hospital  
@@ -147,14 +148,14 @@ int main(){
        switch(input){
               case 1 : {
 
-                cout<<" ====================="  <<endl ;
-                cout<<"        ADMIN         "  <<endl ;
-                cout<<" ====================="  <<endl ;
+                cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
+                cout<<"\t\t\t\t\t\t\t\t        ADMIN         "  <<endl ;
+                cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
                    
-                cout<<"Enter Username : "  ;
+                cout<<"\t\t\t\t\t\t\t\tEnter Username : "  ;
                 cin>> userName ;
                 
-                cout<<"Enter Password : " ;
+                cout<<"\t\t\t\t\t\t\t\tEnter Password : " ;
                 cin>> pwd ;
                   // Password  correct or not 
 
@@ -167,14 +168,14 @@ int main(){
               }
               case 2 : {
                 bool found = false ;
-                cout<<" ====================="  <<endl ;
-                cout<<"      RECEPTIONIST    "  <<endl ;
-                cout<<" ====================="  <<endl ;
+                cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
+                cout<<"\t\t\t\t\t\t\t\t      RECEPTIONIST    "  <<endl ;
+                cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
 
-                cout<<"Enter  Username : "  ;
+                cout<<"\t\t\t\t\t\t\t\tEnter  Username : "  ;
                 cin>> userName ;
 
-                cout<<"Enter Password :" ;
+                cout<<"\t\t\t\t\t\t\t\tEnter Password :" ;
                 cin>> pwd ;
 
                  // Password  correct or not 
@@ -190,15 +191,15 @@ int main(){
               }
               case 3 : { 
                 bool found = false ;
-                cout<<" ====================="  <<endl ;
-                cout<<"         DOCTOR       "    <<endl ;
-                cout<<" ====================="  <<endl ;
+                cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
+                cout<<"\t\t\t\t\t\t\t\t         DOCTOR       "    <<endl ;
+                cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
 
-                cout<<"Enter  Username : "  ;
+                cout<<"\t\t\t\t\t\t\t\tEnter  Username : "  ;
 
                 getline(cin,userName) ;
 
-                cout<<"Enter Password : " ;
+                cout<<"\t\t\t\t\t\t\t\tEnter Password : " ;
                 cin>> pwd ;
                 // Password  correct or not 
                 for(int i = 0 ; i<dsize ; i++){
@@ -217,7 +218,7 @@ int main(){
                 break ; 
               } 
               default :{ 
-                cout<<"Invalid Input " ;
+                cout<<"\t\t\t\t\t\t\t\tInvalid Input " ;
                 break ;
               }
 
@@ -229,19 +230,19 @@ int main(){
          // ADMIN 
          do {
              cout<<'\n' ;
-             cout<<" ====================="  <<endl ;
-             cout<<"         ADMIN         "  <<endl ;
-             cout<<" ====================="  <<endl ; 
+             cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
+             cout<<"\t\t\t\t\t\t\t\t         ADMIN         "  <<endl ;
+             cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ; 
              cout<<'\n' ;
              
-             cout<<"Choose the Desired Section  : " <<endl ;
-             cout<<"1. Doctors "                    <<endl ; 
-             cout<<"2. Receptionist "               <<endl ;
-             cout<<"3. Patients List"               <<endl ;
-             cout<<"4. Beds "                       <<endl ;
-             cout<<"0. Exit "                       <<endl ;   
+             cout<<"\t\t\t\t\t\t\t\tChoose the Desired Section  : " <<endl ;
+             cout<<"\t\t\t\t\t\t\t\t1. Doctors "                    <<endl ; 
+             cout<<"\t\t\t\t\t\t\t\t2. Receptionist "               <<endl ;
+             cout<<"\t\t\t\t\t\t\t\t3. Patients List"               <<endl ;
+             cout<<"\t\t\t\t\t\t\t\t4. Beds "                       <<endl ;
+             cout<<"\t\t\t\t\t\t\t\t0. Exit "                       <<endl ;   
 
-             cout<<"Choose an option : " ;
+             cout<<"\t\t\t\t\t\t\t\tChoose an option : " ;
              input1 = getValidinput05() ; 
              cout<<endl ;
              switch(input1) {
@@ -269,11 +270,11 @@ int main(){
                      break ;
                    }
                     case 0 : {
-                    cout<<"Exiting ..." <<endl ;
+                    cout<<"\t\t\t\t\t\t\t\tExiting ..." <<endl ;
                     break; 
                    }
                    default :{
-                    cout<<"Invalid Input . Pleae Enter Valid Input (0-4)" <<endl ;
+                    cout<<"\t\t\t\t\t\t\t\tInvalid Input . Pleae Enter Valid Input (0-4)" <<endl ;
                     break ;
                    }
                   
@@ -289,22 +290,22 @@ int main(){
             
             do{
             cout<<'\n' ;
-            cout<<" ====================="  <<endl ;
-            cout<<"      RECEPTIONIST    "  <<endl ;
-            cout<<" ====================="  <<endl ;
+            cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
+            cout<<"\t\t\t\t\t\t\t\t      RECEPTIONIST    "  <<endl ;
+            cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
             cout<<'\n' ;
 
 
-            cout<<"Choose the Desire Option :"  <<endl ;
-            cout<<"1. Patient Registration "    <<endl ;
-            cout<<"2. Appointment Scheduling  " <<endl ;
-            cout<<"3. Bed Management "          <<endl ;
-            cout<<"4. Bills    "                <<endl ;
-            cout<<"0. Exit     "                <<endl ;
+            cout<<"\t\t\t\t\t\t\t\tChoose the Desire Option :"  <<endl ;
+            cout<<"\t\t\t\t\t\t\t\t1. Patient Registration "    <<endl ;
+            cout<<"\t\t\t\t\t\t\t\t2. Appointment Scheduling  " <<endl ;
+            cout<<"\t\t\t\t\t\t\t\t3. Bed Management "          <<endl ;
+            cout<<"\t\t\t\t\t\t\t\t4. Bills    "                <<endl ;
+            cout<<"\t\t\t\t\t\t\t\t0. Exit     "                <<endl ;
             cout<<'\n' ;
             cout<<'\n' ;
 
-            cout<<"Choose Option : " ;
+            cout<<"\t\t\t\t\t\t\t\tChoose Option : " ;
             input2 = getValidinput05(); 
 
             switch(input2){
@@ -329,11 +330,11 @@ int main(){
                     break ;
                 }
                 case 0 : {
-                    cout<<"Exiting ..." <<endl ;
+                    cout<<"\t\t\t\t\t\t\t\tExiting ..." <<endl ;
                     break; 
                 }
                 default :{
-                    cout<<"Invalid Input . Pleae Enter Valid Input (0-4)" <<endl ;
+                    cout<<"\t\t\t\t\t\t\t\tInvalid Input . Pleae Enter Valid Input (0-4)" <<endl ;
                     break ;
                    }
                
@@ -346,142 +347,53 @@ int main(){
        }
        // DOCTOR FUNCTIONALITIES 
        else if(userType == 3 ){
-            
-            if(doctorId == 1 ){
+    
             do{  // doctor id 1 
                cout<<'\n' ; 
-               cout<<" ====================="  <<endl ;
-               cout<<"        DOCTOR        "  <<endl ;
-               cout<<" ====================="  <<endl ;
+               cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
+               cout<<"\t\t\t\t\t\t\t\t        DOCTOR        "  <<endl ;
+               cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
                cout<<'\n' ;
 
 
-               cout<<"Choose the Desired Option : " <<endl ;
-               cout<<"1. Appointments"              <<endl ;
-               cout<<"2. Patient Data     "         <<endl ; 
-               cout<<"0. Exit             "         <<endl ;
+               cout<<"\t\t\t\t\t\t\t\tChoose the Desired Option : " <<endl ;
+               cout<<"\t\t\t\t\t\t\t\t1. Appointments"              <<endl ;
+               cout<<"\t\t\t\t\t\t\t\t2. Patient Data     "         <<endl ; 
+               cout<<"\t\t\t\t\t\t\t\t0. Exit             "         <<endl ;
                cout<<endl ;
                cout<<endl ;
 
-               cout<<" Choose a option : " ;
+               cout<<"\t\t\t\t\t\t\t\t Choose a option : " ;
                input3 = getValidinput012() ;  
                switch(input3){
                       case 1 : {
                         // Appointments 
-                         docA1(appointments,doctors,maxAppointments) ;
+                         docA(appointments,doctors,maxAppointments,doctorId ) ;
                          break ;
                       }
                       case 2 : {            
                          // pateint list ;
-                         docP1(appointments,maxAppointments) ;  
+                         docP(appointments,maxAppointments,doctorId) ;  
                          break ;
 
                       }
                       case 0 : {
-                        cout<<"Exiting ..." <<endl ;
+                        cout<<"\t\t\t\t\t\t\t\tExiting ..." <<endl ;
                         break ;
                       }
                       default : {
-                        cout<<"Invalid Input !!" <<endl ;
+                        cout<<"\t\t\t\t\t\t\t\tInvalid Input !!" <<endl ;
                         break ;
                       }
                }
-
-
-            }while(input3 != 0); // doctor do while
-            }
-            else if(doctorId == 2 ){ 
-            do{  // doctor id 2
-               cout<<'\n' ; 
-               cout<<" ====================="  <<endl ;
-               cout<<"        DOCTOR        "  <<endl ;
-               cout<<" ====================="  <<endl ;
-               cout<<'\n' ;
-
-
-               cout<<"Choose the Desired Option : " <<endl ;
-               cout<<"1. Appointments"              <<endl ;
-               cout<<"2. Patient Data     "         <<endl ; 
-               cout<<"0. Exit             "         <<endl ;
-               cout<<endl ;
-               cout<<endl ;
-
-               cout<<" Choose a option : " ;
-               input3 = getValidinput012() ; 
-               switch(input3){
-                      case 1 : {
-                         // Appointments section 
-                         docA2(appointments,doctors,maxAppointments) ;
-                        
-                         break ;
-                      }
-                      case 2 : {
-                          // pateint list ;
-                         docP2(appointments,maxAppointments) ;
-                         break ;
-
-                      }
-                      case 0 : {
-                        cout<<"Exiting ..." <<endl ;
-                        break ;
-                      }
-                      default : {
-                        cout<<"Invalid Input !!" <<endl ;
-                        break ;
-                      }
-               }
-
-
-            }while(input3 != 0); // doctor do while
-            } 
-            else {  
-            do{  // doctor id 3
-               cout<<'\n' ; 
-               cout<<" ====================="  <<endl ;
-               cout<<"        DOCTOR        "  <<endl ;
-               cout<<" ====================="  <<endl ;
-               cout<<'\n' ;
-
-
-               cout<<"Choose the Desired Option : " <<endl ;
-               cout<<"1. Appointments"              <<endl ;
-               cout<<"2. Patient Data     "         <<endl ; 
-               cout<<"0. Exit             "         <<endl ;
-               cout<<endl ;
-               cout<<endl ;
-
-               cout<<" Choose a option : " ;
-               input3 = getValidinput012() ;  
-               switch(input3){
-                      case 1 : {
-                          // Appointments function call          
-                         docA3(appointments,doctors,maxAppointments) ;  
-                         break ;
-                      }
-                      case 2 : {
-                            // pateint list   
-                          docP3(appointments,maxAppointments) ;  
-                         break ;
-
-                      }
-                      case 0 : {
-                        cout<<"Exiting ..." <<endl ;
-                        break ;
-                      }
-                      default : {
-                        cout<<"Invalid Input !!" <<endl ;
-                        break ;
-                      }
-               }
-             
-
 
             }while(input3 != 0); // doctor do while
             }
             
-       }
+      //  }
        else if(userType == -1){
-            cout<<"You have Entered Invalid Credentials!! " <<endl ;        
+            cout<<"\t\t\t\t\t\t\t\tYou have Entered Invalid Credentials!! " <<endl ;   
+            getch() ;     
        }   
 
         
@@ -497,7 +409,7 @@ int main(){
 void header(){
   
 
-  
+system("cls") ;  
 cout<<"====================================================================================================================================================================================" <<endl;
 cout<<"  _  _    ___    ___   ___   ___   _____     _     _        __  __     _     _  _     _      ___   ___   __  __   ___   _  _   _____     ___  __   __  ___   _____   ___   __  __ " <<endl ;
 cout<<" | || |  / _ \\  / __| | _ \\ |_ _| |_   _|   /_\\   | |      |  \\/  |   /_\\   | \\| |   /_\\    / __| | __| |  \\/  | | __| | \\| | |_   _|   / __| \\ \\ / / / __| |_   _| | __| |  \\/  | " <<endl ; 
@@ -526,22 +438,22 @@ void adminD(int dsize,bool &msg,doctor doctors[]) {
      int input;
      string name , pwd , userName;
      cout<<'\n' ;
-     cout<<" ====================="  <<endl ;
-     cout<<"         ADMIN         "  <<endl ;
-     cout<<" ====================="  <<endl ; 
+     cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t         ADMIN         "  <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ; 
      cout<<'\n' ;
      
      do{
-     cout<<"Choose the Option : " <<endl ;
-     cout<<"1. Add New Doctor    " <<endl ; 
-     cout<<"2. Delete Doctor Record " <<endl ; 
-     cout<<"3. Update Doctor Record " <<endl ;
-     cout<<"4. Doctor's List " <<endl ;
-     cout<<"0. Exit  " <<endl ;
+     cout<<"\t\t\t\t\t\t\t\tChoose the Option : " <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t1. Add New Doctor    " <<endl ; 
+     cout<<"\t\t\t\t\t\t\t\t2. Delete Doctor Record " <<endl ; 
+     cout<<"\t\t\t\t\t\t\t\t3. Update Doctor Record " <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t4. Doctor's List " <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t0. Exit  " <<endl ;
      cout<<'\n' ;
 
-     cout<<"Choose an option : " <<endl ;
-     input =getValidinput05() ;
+     cout<<"\t\t\t\t\t\t\t\tChoose an option : "  ;
+     input = getValidinput05() ;
 
      switch(input){
         case 1 :{   //ADD
@@ -561,11 +473,11 @@ void adminD(int dsize,bool &msg,doctor doctors[]) {
                  cout<<"Enter the specialization of the doctor :  " ;
                  getline(cin,doctors[i].category) ;                                  
 
-                 cout<< " Assign UserName (Without Space) : " ;
+                 cout<< "Assign UserName (Without Space) : " ;
                  doctors[i].userName  = uniqueDocUser(doctors ,dsize,false) ;
                  
 
-                 cout<<" Assign password :  " ;
+                 cout<<"Assign password :  " ;
                  cin>> doctors[i].pwdD ;
 
                  doctors[i].idD = i+1 ;
@@ -575,7 +487,7 @@ void adminD(int dsize,bool &msg,doctor doctors[]) {
                  break ;
               }
           }
-          found ? cout<<"Succesfully Added! " : cout<<"Cannot Add New Doctors Details.Space is full" ;
+          found ? cout<<"\t\t\t\t\t\t\t\tSuccesfully Added! " : cout<<"\t\t\t\t\t\t\t\tCannot Add New Doctors Details.Space is full" ;
           cout<<endl ;
           cout<<endl ;
           saveDoctorsData(doctors, dsize) ;
@@ -583,7 +495,7 @@ void adminD(int dsize,bool &msg,doctor doctors[]) {
         }
         case 2 :{ // Delete
             bool found = false ;
-            cout<<"Enter Doctor's UserName : " ;
+            cout<<"\t\t\t\t\t\t\t\tEnter Doctor's UserName : " ;
             //cin.ignore(100,'\n') ;
             cin>>name ; ;
 
@@ -595,7 +507,7 @@ void adminD(int dsize,bool &msg,doctor doctors[]) {
                 break;
               }
             }
-            found ? cout<<"Deleted Successfully!" : cout<<"Name not Found !" ;
+            found ? cout<<"\t\t\t\t\t\t\t\tDeleted Successfully!" : cout<<"\t\t\t\t\t\t\t\tName not Found !" ;
             saveDoctorsData(doctors, dsize) ;
             cout<<endl ;  
             cout<<endl ;
@@ -604,7 +516,7 @@ void adminD(int dsize,bool &msg,doctor doctors[]) {
         }
         case 3 :{ // Update 
              bool found = false ;
-            cout<<"Enter Doctor's UserName : " ;
+            cout<<"\t\t\t\t\t\t\t\tEnter Doctor's UserName : " ;
             cin>>name ;
 
             for(int i = 0; i< dsize ; i++){
@@ -623,17 +535,17 @@ void adminD(int dsize,bool &msg,doctor doctors[]) {
                  cout<<"Enter the specialization of the doctor :  " ;
                  getline(cin,doctors[i].category) ;                                 
 
-                 cout<< " Assign UserName (Without Space) : " ;
+                 cout<< "Assign UserName (Without Space) : " ;
                  doctors[i].userName  = uniqueDocUser(doctors ,dsize,true) ;
 
-                 cout<<" Assign password :  " ;
+                 cout<<"Assign password :  " ;
                  cin>>  doctors[i].pwdD ;
                  msg = true ; 
                  found = true ;
                  break ;
               }
             }
-            found ? cout<<"Updated Successfully!" : cout<<"Name not Found !!" ;
+            found ? cout<<"\t\t\t\t\t\t\t\tUpdated Successfully!" : cout<<"\t\t\t\t\t\t\t\tName not Found !!" ;
             saveDoctorsData(doctors, dsize) ;
             cout<<endl ; 
             cout<<endl ;
@@ -645,12 +557,12 @@ void adminD(int dsize,bool &msg,doctor doctors[]) {
           break ;
         }
         case 0 :{
-          cout<<"Exiting From Doctor's Section ." <<endl ;
+          cout<<"\t\t\t\t\t\t\t\tExiting From Doctor's Section ." <<endl ;
           saveDoctorsData(doctors, dsize) ;
           break ;
         }
          default :{
-            cout<<"Invalid Input . Pleae Enter Valid Input (0-4)" <<endl ;
+            cout<<"\t\t\t\t\t\t\t\tInvalid Input . Pleae Enter Valid Input (0-4)" <<endl ;
             break  ;
          }                   
      }
@@ -664,21 +576,21 @@ void adminR(receptionist recs[] , int rsize) {
      int input , counter = 0 ;
      string name , pwd ;
      cout<<'\n' ;
-     cout<<" ====================="  <<endl ;
-     cout<<"         ADMIN         "  <<endl ;
-     cout<<" ====================="  <<endl ; 
+     cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t         ADMIN         "  <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ; 
      cout<<'\n' ;
      
      do{
-     cout<<"Choose the Option : " <<endl ;
-     cout<<"1. Add New Receptionist " <<endl ; 
-     cout<<"2. Delete Receptionist Record " <<endl ; 
-     cout<<"3. Update Receptionist Record " <<endl ;
-     cout<<"4. Receptionist's List " <<endl ;
-     cout<<"0. Exit  " <<endl ;
+     cout<<"\t\t\t\t\t\t\t\tChoose the Option : " <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t1. Add New Receptionist " <<endl ; 
+     cout<<"\t\t\t\t\t\t\t\t2. Delete Receptionist Record " <<endl ; 
+     cout<<"\t\t\t\t\t\t\t\t3. Update Receptionist Record " <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t4. Receptionist's List " <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t0. Exit  " <<endl ;
      cout<<'\n' ;
 
-     cout<<"Choose an option : " <<endl ;
+     cout<<"\t\t\t\t\t\t\t\tChoose an option : " <<endl ;
      input = getValidinput05() ;
 
      switch(input){
@@ -695,7 +607,7 @@ void adminR(receptionist recs[] , int rsize) {
                    cout<<"Enter Receptionist Gender (male/female ):" ;
                    recs[i].gender = validGen() ; 
 
-                   cout<<"Assign Receptionist UserName (without space) : " ;
+                   cout<<"tAssign Receptionist UserName (without space) : " ;
                    recs[i].userName = uniqueRecUser(recs,rsize,false);
 
                    cout<<"Assign Password :  " ;
@@ -708,7 +620,7 @@ void adminR(receptionist recs[] , int rsize) {
                    break ; 
                 }
             }
-            found ? cout<<"Succesfully Added " : cout<<"There is no vacancy to add more receptionist " ;
+            found ? cout<<"\t\t\t\t\t\t\t\tSuccesfully Added " : cout<<"\t\t\t\t\t\t\t\tThere is no vacancy to add more receptionist " ;
             saveReceptionist(recs, rsize )  ;
             cout<<endl ;
             cout<<endl ;
@@ -716,7 +628,7 @@ void adminR(receptionist recs[] , int rsize) {
         }
         case 2 :{ // Delete
           bool found = false ;
-          cout<<"Enter Receptionist's UserName : " ;
+          cout<<"\t\t\t\t\t\t\t\tEnter Receptionist's UserName : " ;
           cin>>name ;
 
             for(int i = 0; i< rsize ; i++){
@@ -727,7 +639,7 @@ void adminR(receptionist recs[] , int rsize) {
                 break;
               }
             }
-            found ? cout<<"Deleted Successfully!" : cout<<"Name not Found !" ;
+            found ? cout<<"\t\t\t\t\t\t\t\tDeleted Successfully!" : cout<<"\t\t\t\t\t\t\t\tName not Found !" ;
             saveReceptionist(recs, rsize )  ;
             cout<<endl ;   
             cout<<endl ; 
@@ -737,7 +649,7 @@ void adminR(receptionist recs[] , int rsize) {
           // Update 
             bool found = false ;
             
-            cout<<"Enter Receptionist's UserName : " ;
+            cout<<"\t\t\t\t\t\t\t\tEnter Receptionist's UserName : " ;
             cin>> name ;
 
             for(int i = 0; i< rsize ; i++){
@@ -756,14 +668,14 @@ void adminR(receptionist recs[] , int rsize) {
                    cout<<"Assign Receptionist UserName (without space) : " ;
                    recs[i].userName = uniqueRecUser(recs,rsize,true);
 
-                   cout<<"Assign Password :  " ;
+                   cout<<"tAssign Password :  " ;
                    cin>> recs[i].pwdR ;
 
                    found = true ;
                    break ; 
               }
             }
-              found ? cout<<"Updated Successfully!" : cout<<"Name not Found !!"  ;
+              found ? cout<<"\t\t\t\t\t\t\t\tUpdated Successfully!" : cout<<"\t\t\t\t\t\t\t\tName not Found !!"  ;
               saveReceptionist(recs, rsize )  ;
               cout<<endl ; 
               cout<<endl ;
@@ -786,17 +698,17 @@ void adminR(receptionist recs[] , int rsize) {
                }
           }
           if(!found)
-             cout<<"No Receptionists Available in Hospital . " <<endl; 
+             cout<<"\t\t\t\t\t\t\t\tNo Receptionists Available in Hospital . " <<endl; 
              cout<<endl ;
           break ;
         }
         case 0 :{
-          cout<<"Exiting From Receptionist's Section ." <<endl ;
+          cout<<"\t\t\t\t\t\t\t\tExiting From Receptionist's Section ." <<endl ;
           cout<<endl ;
           break ;
         }
          default :{
-           cout<<"Invalid Input . Pleae Enter Valid Input (0-4)" <<endl ;          
+           cout<<"\t\t\t\t\t\t\t\tInvalid Input . Pleae Enter Valid Input (0-4)" <<endl ;          
                  break ;
           }
      }
@@ -809,20 +721,20 @@ void adminR(receptionist recs[] , int rsize) {
 void adminP(doctor doctors[],patient patients[],appoint appointments[][5] ,int psize , int dsize ){
      int input;
      cout<<'\n' ;
-     cout<<" ====================="  <<endl ;
-     cout<<"         ADMIN         "  <<endl ;
-     cout<<" ====================="  <<endl ; 
+     cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t         ADMIN         "  <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ; 
      cout<<'\n' ;
       
     
      
      do{
-       cout<<"Choose the desired option : " <<endl;
-       cout<<"1.Patients List admiited in Hospital." <<endl ;
-       cout<<"2.Patient list regestered for appointments " <<endl ;
-       cout<<"0.Exit " <<endl ;
+       cout<<"\t\t\t\t\t\t\t\tChoose the desired option : " <<endl;
+       cout<<"\t\t\t\t\t\t\t\t1.Patients List admiited in Hospital." <<endl ;
+       cout<<"\t\t\t\t\t\t\t\t2.Patient list regestered for appointments " <<endl ;
+       cout<<"\t\t\t\t\t\t\t\t0.Exit " <<endl ;
        cout<<endl ;
-       cout<<"Choose an option : " ;
+       cout<<"\t\t\t\t\t\t\t\tChoose an option : " ;
        input = getValidinput012() ;
 
      switch (input) {
@@ -841,7 +753,7 @@ void adminP(doctor doctors[],patient patients[],appoint appointments[][5] ,int p
              }
           }
           if(!found){
-            cout<<"No Patient is admitted  in Hospital ." <<endl ;
+            cout<<"\t\t\t\t\t\t\t\tNo Patient is admitted  in Hospital ." <<endl ;
             cout<<endl ;
           }
         break ;
@@ -852,7 +764,7 @@ void adminP(doctor doctors[],patient patients[],appoint appointments[][5] ,int p
             break;
         }   
         case 0:{
-            cout << "Exiting . " << endl;
+            cout << "\t\t\t\t\t\t\t\tExiting . " << endl;
             cout<<endl ;
             break;
         }
@@ -896,32 +808,32 @@ void beds(bool bed[] , int psize , int userType){
      cout<<"Number of Beds Occupied : " << counter <<endl ;
      cout<<endl ;
      }
-     }     
+    }     
      }
 
 /////////////   RECEPTIONIST
 
-// Patients
+// Patients 
 
 void recP(patient patients[] , int psize , bool bed[] ) {
      int input ;
      string name ;
      cout<<'\n' ;
-     cout<<" ====================="  <<endl ;
-     cout<<"     Receptionist         "  <<endl ;
-     cout<<" ====================="  <<endl ; 
+     cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t     Receptionist         "  <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ; 
      cout<<'\n' ;
      
      do{
-     cout<<"Choose the Option : " <<endl ;
-     cout<<"1. Add New Patient " <<endl ; 
-     cout<<"2. Delete Patient Record" <<endl ; 
-     cout<<"3. Update Patient Record " <<endl ;
-     cout<<"4. Patient's List " <<endl ;
-     cout<<"0. Exit  " <<endl ;
+     cout<<"\t\t\t\t\t\t\t\tChoose the Option : " <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t1. Add New Patient " <<endl ; 
+     cout<<"\t\t\t\t\t\t\t\t2. Delete Patient Record" <<endl ; 
+     cout<<"\t\t\t\t\t\t\t\t3. Update Patient Record " <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t4. Patient's List " <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t0. Exit  " <<endl ;
      cout<<'\n' ;
 
-     cout<<"Choose an option : " <<endl ;
+     cout<<"\t\t\t\t\t\t\t\tChoose an option : " <<endl ;
      input = getValidinput05() ;
 
      switch(input){
@@ -950,7 +862,7 @@ void recP(patient patients[] , int psize , bool bed[] ) {
                 }
             }
             savePatientData(patients,psize) ;
-            found ? cout<<"Succesfully Added " : cout<<"There is no space to add more Patients " ;
+            found ? cout<<"\t\t\t\t\t\t\t\tSuccesfully Added " : cout<<"\t\t\t\t\t\t\t\tThere is no space to add more Patients " ;
             cout<<endl ;
             cout<<endl ;
                
@@ -960,7 +872,7 @@ void recP(patient patients[] , int psize , bool bed[] ) {
           // Delete data of patients
           bool found = false ;
           int id ;
-          cout<<"Enter Patient's ID to delete his/her record : " ;
+          cout<<"\t\t\t\t\t\t\t\tEnter Patient's ID to delete his/her record : " ;
           id = getInt() ;
 
             for(int i = 0; i< psize ; i++){
@@ -971,7 +883,7 @@ void recP(patient patients[] , int psize , bool bed[] ) {
               }
             }
           savePatientData(patients,psize) ;
-            found ? cout<<"Deleted Successfully!" : cout<<"Name not Found !" ;
+            found ? cout<<"\t\t\t\t\t\t\t\tDeleted Successfully!" : cout<<"\t\t\t\t\t\t\t\tName not Found !" ;
             cout<<endl ;  
             cout<<endl ;  
           break ;
@@ -1024,19 +936,19 @@ void recP(patient patients[] , int psize , bool bed[] ) {
              }
           }
           if(!found)
-             cout<<"No Patients Available in Hospital . " <<endl; 
+             cout<<"\t\t\t\t\t\t\t\tNo Patients Available in Hospital . " <<endl; 
              cout<<endl ;
           break ;
         }
        
         case 0 :{
-          cout<<"Exiting From Patient's Section ." <<endl ;
+          cout<<"\t\t\t\t\t\t\t\tExiting From Patient's Section ." <<endl ;
           cout<<endl ;
           savePatientData(patients,psize) ;
           break ;
         }
          default :{
-           cout<<"Invalid Input . Pleae Enter Valid Input (0-4)" <<endl ;
+           cout<<"\t\t\t\t\t\t\t\tInvalid Input . Pleae Enter Valid Input (0-4)" <<endl ;
            break ;       
            }
      }
@@ -1048,26 +960,29 @@ void recP(patient patients[] , int psize , bool bed[] ) {
 void recA(appoint appointments[][5], doctor doctors[], int dsize, int maxAppointments, bool &msg) {
     int input, inputIdD;
     cout << '\n';
-    cout << " =====================" << endl;
-    cout << "     Receptionist         " << endl;
-    cout << " =====================" << endl;
+    cout << "\t\t\t\t\t\t\t\t =====================" << endl;
+    cout << "\t\t\t\t\t\t\t\t     Receptionist         " << endl;
+    cout << "\t\t\t\t\t\t\t\t =====================" << endl;
     cout << '\n';
 
     if (msg) {
-        cout << "Doctor's Record has been updated. Please update the appointments." << endl << endl;
+        cout<<"\t\t\t\t\t\t\t\t**************************************************************************************" <<endl ;
+        cout << "\t\t\t\t\t\t\t\tDoctor's Record has been updated. Please update the appointments." ;
+        cout<<"\t\t\t\t\t\t\t\t**************************************************************************************" <<endl ;
+        cout<<endl ;
     }
 
     do {
-        cout << "Choose the Option: " << endl;
-        cout << "1. New Appointment  " << endl;
-        cout << "2. Delete Appointment  " << endl;
-        cout << "3. Update Appointment " << endl;
-        cout << "4. Appointments List   " << endl;
-        cout << "5. Doctor's List  " << endl;
-        cout << "0. Exit   " << endl;
+        cout << "\t\t\t\t\t\t\t\tChoose the Option: " << endl;
+        cout << "\t\t\t\t\t\t\t\t1. New Appointment  " << endl;
+        cout << "\t\t\t\t\t\t\t\t2. Delete Appointment  " << endl;
+        cout << "\t\t\t\t\t\t\t\t3. Update Appointment " << endl;
+        cout << "\t\t\t\t\t\t\t\t4. Appointments List   " << endl;
+        cout << "\t\t\t\t\t\t\t\t5. Doctor's List  " << endl;
+        cout << "\t\t\t\t\t\t\t\t0. Exit   " << endl;
         cout << '\n';
 
-        cout << "Choose an option: ";
+        cout << "\t\t\t\t\t\t\t\tChoose an option: ";
         input = getValidinput05();
         cout << endl;
 
@@ -1077,7 +992,7 @@ void recA(appoint appointments[][5], doctor doctors[], int dsize, int maxAppoint
                 docListA(doctors, dsize); // Display the list of doctors
                 cout << endl;
 
-                cout << "Enter the ID of the doctor you want to select for the appointment: ";
+                cout << "\t\t\t\t\t\t\t\tEnter the ID of the doctor you want to select for the appointment: ";
                 inputIdD = getValidinput123();
                 inputIdD -= 1; // Adjust for zero-based indexing
 
@@ -1107,7 +1022,7 @@ void recA(appoint appointments[][5], doctor doctors[], int dsize, int maxAppoint
                 }
 
                 if (!found) {
-                    cout << "Appointments are full. Cannot set new appointments." << endl;
+                    cout << "\t\t\t\t\t\t\t\tAppointments are full. Cannot set new appointments." << endl;
                 }
                 saveAppointments(appointments,doctors,maxAppointments,dsize) ;  
                 break;
@@ -1115,24 +1030,24 @@ void recA(appoint appointments[][5], doctor doctors[], int dsize, int maxAppoint
             case 2: { // Delete Appointment
                 bool found = false;
                 int id;
-                cout << "Enter Patient ID to delete their appointment: ";
+                cout << "\t\t\t\t\t\t\t\tEnter Patient ID to delete their appointment: ";
                 id = getInt();
 
-                cout << "Enter Doctor's ID: ";
+                cout << "\t\t\t\t\t\t\t\tEnter Doctor's ID: ";
                 inputIdD = getValidinput123();
                 inputIdD -= 1;
 
                 for (int j = 0; j < maxAppointments; j++) {
                     if (appointments[inputIdD][j].idA == id && appointments[inputIdD][j].isConfirmed) {
                         appointments[inputIdD][j] = {"NV", "NV", "NV", "NV", -1,-1, false};
-                        cout << "Appointment deleted successfully." << endl;
+                        cout << "\t\t\t\t\t\t\t\tAppointment deleted successfully." << endl;
                         found = true;
                         break;
                     }
                 }
 
                 if (!found) {
-                    cout << "Appointment not found for the given ID." << endl;
+                    cout << "\t\t\t\t\t\t\t\tAppointment not found for the given ID." << endl;
                 }
                 saveAppointments(appointments,doctors,maxAppointments,dsize) ; 
                 break;
@@ -1140,10 +1055,10 @@ void recA(appoint appointments[][5], doctor doctors[], int dsize, int maxAppoint
             case 3: { // Update Appointment
                 bool found = false;
                 int id;
-                cout << "Enter Patient ID to update their appointment: ";
+                cout << "\t\t\t\t\t\t\t\tEnter Patient ID to update their appointment: ";
                 id = getInt();
 
-                cout << "Enter Doctor's ID: ";
+                cout << "\t\t\t\t\t\t\t\tEnter Doctor's ID: ";
                 inputIdD = getValidinput123();
                 inputIdD -= 1;
 
@@ -1172,7 +1087,7 @@ void recA(appoint appointments[][5], doctor doctors[], int dsize, int maxAppoint
                 }
                 
                 if (!found) {
-                    cout << "Appointment not found for the given ID." << endl;
+                    cout << "\t\t\t\t\t\t\t\tAppointment not found for the given ID." << endl;
                 }
                 saveAppointments(appointments,doctors,maxAppointments,dsize) ; 
                 break;
@@ -1180,7 +1095,7 @@ void recA(appoint appointments[][5], doctor doctors[], int dsize, int maxAppoint
             case 4: { // Appointments List
                bool found1 = false ;
           bool found2 = false ;
-          cout<<" Enter Doctor's ID to check thier list " ;
+          cout<<"\t\t\t\t\t\t\t\t Enter Doctor's ID to check thier list " ;
           inputIdD = getValidinput123() ;
           inputIdD = inputIdD -1 ;
 
@@ -1212,12 +1127,12 @@ void recA(appoint appointments[][5], doctor doctors[], int dsize, int maxAppoint
             }
 
            if(!found1){
-              cout<<"No Doctors Have been added yet By Admin ! "<<endl ;
+              cout<<"\t\t\t\t\t\t\t\tNo Doctors Have been added yet By Admin ! "<<endl ;
               cout<<endl ;
            }
            if(found1){
            if(!found2){
-              cout<<"This Doctor has no appointments Scheduled.!" <<endl ;
+              cout<<"\t\t\t\t\t\t\t\tThis Doctor has no appointments Scheduled.!" <<endl ;
               cout<<endl ;
            }
            }
@@ -1244,26 +1159,26 @@ void recB(patient patients[],appoint appointments[][5],bool bed[], int psize, in
      int input , bill ,days , id , idD;
      
      cout<<'\n' ;
-     cout<<" ====================="  <<endl ;
-     cout<<"     Receptionist         "  <<endl ;
-     cout<<" ====================="  <<endl ; 
+     cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t     Receptionist         "  <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ; 
      cout<<'\n' ; 
     
     do{
-    cout<<"=========================================="<<endl ;
-    cout<<"        Receptionist Billing Menu:" <<endl  ;
-    cout<<"=========================================="<<endl ;
-    cout << "1. Bill for Admitted Patients" << endl ;
-    cout << "2. Bill for Appointment Patients" << endl;
-    cout << "0. Exit "                          <<endl ;
-    cout << "Enter your choice: ";
+    cout<<"\t\t\t\t\t\t\t\t=========================================="<<endl ;
+    cout<<"\t\t\t\t\t\t\t\t        Receptionist Billing Menu:" <<endl  ;
+    cout<<"\t\t\t\t\t\t\t\t=========================================="<<endl ;
+    cout << "\t\t\t\t\t\t\t\t1. Bill for Admitted Patients" << endl ;
+    cout << "\t\t\t\t\t\t\t\t2. Bill for Appointment Patients" << endl;
+    cout << "\t\t\t\t\t\t\t\t0. Exit "                          <<endl ;
+    cout << "\t\t\t\t\t\t\t\tEnter your choice: ";
     input = getValidinput012();
 
     switch(input){
        case 1 : {
               bool found1 = false ;
              // Billing for Admitted Patients
-            cout << "Enter Patient Id  for Admitted Patient Billing: ";
+            cout << "\t\t\t\t\t\t\t\tEnter Patient Id  for Admitted Patient Billing: ";
             cin >> id; 
 
             for (int i = 0 ; i < psize; i++) {
@@ -1280,16 +1195,16 @@ void recB(patient patients[],appoint appointments[][5],bool bed[], int psize, in
             }
 
             if (!found1) {
-                cout << "Patient not found or not admitted." << endl <<endl ;
+                cout << "\t\t\t\t\t\t\t\tPatient not found or not admitted." << endl <<endl ;
             }
             break;
        }            
              case 2:{
              bool found2 = false ; 
             // Billing for Appointment Patients
-            cout << "Enter Patient Id  for Appointment Billing: ";
+            cout << "\t\t\t\t\t\t\t\tEnter Patient Id  for Appointment Billing: ";
             cin >> id ;
-            cout<<"Enter Patient's Doctor Id (1-3)  : " ;
+            cout<<"\t\t\t\t\t\t\t\tEnter Patient's Doctor Id (1-3)  : " ;
             idD = getValidinput123() ;
             idD = idD - 1 ;
             
@@ -1305,12 +1220,12 @@ void recB(patient patients[],appoint appointments[][5],bool bed[], int psize, in
                 }
           
             if (!found2) {
-                cout << "Patient not found or no appointment record." << endl <<endl ;
+                cout << "\t\t\t\t\t\t\t\tPatient not found or no appointment record." << endl <<endl ;
             }
             break;
             }
             case 0 :{
-              cout<<"Exiting from Billing Section .." <<endl <<endl ;
+              cout<<"\t\t\t\t\t\t\t\tExiting from Billing Section .." <<endl <<endl ;
               break ;
             }
 
@@ -1322,16 +1237,16 @@ void recB(patient patients[],appoint appointments[][5],bool bed[], int psize, in
 
 // Doctor  1  Patients Details
 
-void docP1(appoint appointments[][5],int maxAppointments){
+void docP(appoint appointments[][5],int maxAppointments,int docId){
+      docId = docId - 1 ;
       bool found = false ; 
       int id ;
-      int docId = 0 ;
       cout<<'\n' ; 
-      cout<<" ====================="  <<endl ;
-      cout<<"        DOCTOR        "  <<endl ;
-      cout<<" ====================="  <<endl ;
+      cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
+      cout<<"\t\t\t\t\t\t\t\t        DOCTOR        "  <<endl ;
+      cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
       cout<<'\n' ; 
-      cout<<"Enter Patient ID to see thier details : "  ;
+      cout<<"\t\t\t\t\t\t\t\tEnter Patient ID to see thier details : "  ;
       id =getInt() ;   
 
       cout<<"======================================================================================================="<<endl ; 
@@ -1346,18 +1261,18 @@ void docP1(appoint appointments[][5],int maxAppointments){
          }
       }   
       if(!found){
-        cout<<"No Data!!" <<endl <<endl ;
+        cout<<"\t\t\t\t\t\t\t\tNo Data!!" <<endl <<endl ;
       }
 
       
 }
 // Doctor  1  Appointments lista
-void docA1(appoint appointments[][5],doctor doctors[] ,  int maxAppointments){
-     int docId = 0 ;
+void docA(appoint appointments[][5],doctor doctors[] ,  int maxAppointments,int docId){
+     docId = docId - 1 ;
      cout<<'\n' ; 
-     cout<<" ====================="  <<endl ;
-     cout<<"        DOCTOR        "  <<endl ;
-     cout<<" ====================="  <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t        DOCTOR        "  <<endl ;
+     cout<<"\t\t\t\t\t\t\t\t ====================="  <<endl ;
      cout<<'\n' ;      
      
      bool found1 = false ;
@@ -1387,161 +1302,14 @@ void docA1(appoint appointments[][5],doctor doctors[] ,  int maxAppointments){
             }
           }
           if(!found1){
-              cout<<"No Doctors Have been added yet By Admin ! "<<endl <<endl ;
+              cout<<"\t\t\t\t\t\t\t\tNo Doctors Have been added yet By Admin ! "<<endl <<endl ;
           }
           if(!found2){
-              cout<<"This Doctor has no appointments Scheduled.!" <<endl  <<endl ;
+              cout<<"\t\t\t\t\t\t\t\tThis Doctor has no appointments Scheduled.!" <<endl  <<endl ;
          }
     
 
 }
-
-// Doctor  1  Patients Details
-void docP2(appoint appointments[][5],int maxAppointments ){
-      bool found = false ; 
-      int id ;
-      int docId = 1 ;
-      cout<<'\n' ; 
-      cout<<" ====================="  <<endl ;
-      cout<<"        DOCTOR        "  <<endl ;
-      cout<<" ====================="  <<endl ;
-      cout<<'\n' ; 
-      cout<<"Enter Patient ID to see thier details : "  ;
-      id =getInt() ;   
-
-      cout<<"======================================================================================================="<<endl ; 
-      cout<<"Patient's Id \t"<<" Patient's Name \t\t"<<"  Patient's Age\t\t"<<"Gender\t\t"<<" Disease" <<endl;
-      cout<<"======================================================================================================="<<endl ; 
-      for(int j= 0 ;j<maxAppointments ;j++){
-         if(appointments[docId][j].isConfirmed == true && id == appointments[docId][j].idA){
-          cout<<left ;  
-          cout<<setw(20)<<appointments[docId][j].idA <<setw(30) <<appointments[docId][j].name<<setw(20)<<appointments[docId][j].age <<setw(20)<<appointments[docId][j].gender<<setw(30)<<appointments[docId][j].disease  <<endl ;
-          found = true ;
-         }
-      }   
-      if(!found){
-        cout<<"No Data!!" <<endl <<endl ;
-      }
-
-} 
-// Doctor  2  Appointments lists 
-
-void docA2(appoint appointments[][5],doctor doctors[] , int maxAppointments){
-     int docId = 1 ;
-     cout<<'\n' ; 
-     cout<<" ====================="  <<endl ;
-     cout<<"        DOCTOR        "  <<endl ;
-     cout<<" ====================="  <<endl ;
-     cout<<'\n' ;      
-     
-     bool found1 = false ;
-     bool found2 = false ;
-     
-     cout<<"==============================================" <<endl ; 
-     cout<<"Doctor's ID\t\t"<< "Doctor' Name \t" <<endl  ;
-     cout<<"==============================================" <<endl ;
-   
-     if( doctors [docId].isDoc == true ){
-             
-     cout<<doctors [docId].idD <<"\t\t\t" << "Dr. "<< doctors [docId].name << endl ; 
-            
-     found1 = true ;
-     }
-     if(found1){
-        cout<<"=====================================================================" <<endl ;
-        cout<<"Patient's Id \t"<<"Patient's Name \t\t"<< "          Appointments" <<endl ;
-        cout<<"=====================================================================" <<endl ;
-        }
-             
-      for(int j= 0 ;j<maxAppointments ; j++){
-         if(appointments[docId][j].isConfirmed == true){
-            cout<<left ;
-            cout<<setw(20)<<appointments[docId][j].idA<< setw(30) <<appointments[docId][j].name <<appointments[docId][j].date <<endl;
-            found2 = true ;
-            }
-          }
-          if(!found1){
-              cout<<"No Doctors Have been added yet By Admin ! "<<endl <<endl ;
-          }
-          if(!found2){
-              cout<<"This Doctor has no appointments Scheduled.!" <<endl  <<endl ;
-         }
-}
-
-// Doctor  1  Patients Details
-
-void docP3(appoint appointments[][5],int maxAppointments ){
-  
-      bool found = false ; 
-      int id ;
-      int docId = 2 ;
-      cout<<'\n' ; 
-      cout<<" ====================="  <<endl ;
-      cout<<"        DOCTOR        "  <<endl ;
-      cout<<" ====================="  <<endl ;
-      cout<<'\n' ; 
-      cout<<"Enter Patient ID to see thier details : "  ;
-      id =getInt() ;   
-
-      cout<<"======================================================================================================="<<endl ; 
-      cout<<"Patient's Id \t"<<" Patient's Name \t\t"<<"  Patient's Age\t\t"<<"Gender\t\t"<<" Disease" <<endl;
-      cout<<"======================================================================================================="<<endl ; 
-      for(int j= 0 ;j<maxAppointments ;j++){
-         if(appointments[docId][j].isConfirmed == true && id == appointments[docId][j].idA){
-          cout<<left ;  
-          cout<<setw(20)<<appointments[docId][j].idA <<setw(30) <<appointments[docId][j].name<<setw(20)<<appointments[docId][j].age <<setw(20)<<appointments[docId][j].gender<<setw(30)<<appointments[docId][j].disease  <<endl ;
-          found = true ;
-         }
-      }   
-      if(!found){
-        cout<<"No Data!!" <<endl <<endl ;
-      }
-
-}
-// Doctor  3  Appointments lists
-void docA3(appoint appointments[][5],doctor doctors[] ,  int maxAppointments){
-     int docId = 2 ;
-     cout<<'\n' ; 
-     cout<<" ====================="  <<endl ;
-     cout<<"        DOCTOR        "  <<endl ;
-     cout<<" ====================="  <<endl ;
-     cout<<'\n' ;      
-     
-     bool found1 = false ;
-     bool found2 = false ;
-     
-     cout<<"==============================================" <<endl ; 
-     cout<<"Doctor's ID\t\t"<< "Doctor' Name \t" <<endl  ;
-     cout<<"==============================================" <<endl ;
-   
-     if( doctors [docId].isDoc == true ){
-             
-     cout<<doctors [docId].idD <<"\t\t\t" << "Dr. "<< doctors [docId].name << endl ; 
-            
-     found1 = true ;
-     }
-     if(found1){
-        cout<<"=====================================================================" <<endl ;
-        cout<<"Patient's Id \t"<<"Patient's Name \t\t"<< "          Appointments" <<endl ;
-        cout<<"=====================================================================" <<endl ;
-        }
-             
-      for(int j= 0 ;j<maxAppointments ; j++){
-         if(appointments[docId][j].isConfirmed == true){
-            cout<<left ;
-            cout<<setw(20)<<appointments[docId][j].idA<< setw(30) <<appointments[docId][j].name <<appointments[docId][j].date <<endl;
-            found2 = true ;
-            }
-          }
-          if(!found1){
-              cout<<"No Doctors Have been added yet By Admin ! "<<endl <<endl ;
-          }
-          if(!found2){
-              cout<<"This Doctor has no appointments Scheduled.!" <<endl  <<endl ;
-         }
-
-}
-
 // Doctors List 
 void docList(doctor doctors[] , int dsize){
      bool found = false ;
@@ -1558,7 +1326,7 @@ void docList(doctor doctors[] , int dsize){
          }
       }
      if(!found)
-     cout<<"No Doctors Available in Hospital . " <<endl <<endl ;  
+     cout<<"\t\t\t\t\t\t\t\tNo Doctors Available in Hospital . " <<endl <<endl ;  
 }
 
 //Doctors to be represented in Appointments Section
@@ -1577,7 +1345,7 @@ void docListA(doctor doctors[] , int dsize ){
          }
       }
      if(!found)
-     cout<<"No Doctors Available in Hospital . " <<endl <<endl  ;  
+     cout<<"\t\t\t\t\t\t\t\tNo Doctors Available in Hospital . " <<endl <<endl  ;  
 }
 
 void appoinList( appoint appointments[][5],doctor doctors[] ,int dsize){
@@ -1585,7 +1353,7 @@ void appoinList( appoint appointments[][5],doctor doctors[] ,int dsize){
      int inputIdD ;
      bool found1 = false ;
      bool found2 = false ;
-     cout<<" Enter Doctor's ID to check thier list " ;
+     cout<<"\t\t\t\t\t\t\t\t Enter Doctor's ID to check thier list " ;
      inputIdD =  getValidinput123() ;
      inputIdD = inputIdD -1 ;
 
@@ -2161,5 +1929,3 @@ void loadAppointments(appoint appointments[][5]  , int maxAppointments,int dsize
         cout << "Failed to load Appointments!!" << endl;
     }
 }
-
-
